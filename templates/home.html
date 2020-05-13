@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block css %}
+	<link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='style/OnlineMess.css') }}">
+{% endblock %}
+
+{% block content %}
+<header class="home-header w3-padding w3-center" style="background-image: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.1)),url('{{ url_for('static', filename='img/back.jpg')}}');background-repeat: no-repeat;
+	background-size: cover;">
+
+	<section class="w3-container w3-margin-bottom w3-text-white w3-padding-small">
+		<h2>Welcome in the world of Messes<span class="change_content"></span></h2>
+		<p>A Place To Find Healthy Food</p>
+		<a href="/learn" class="w3-button w3-hover-white w3-center w3-acp-mid-green">Learn More</a>
+		<a href="/search?text_query_name=" class="w3-button w3-hover-white w3-center w3-acp-mid-green">Get Started</a>					   
+	</section>
+<br/>
+<br/>
+<br/>
+<!-- gallery section -->
+<div id="gallery" class="w3-center w3-margin w3-round-large" style="background-color: #EEEEEE ;">
+	<div class="row" class="w3-round">
+		<div>
+			<div class="w3-text-black w3-border-bottom w3-xxxlarge">Food Gallery</div>
+			<hr>
+			<div class="w3-row">
+				<div class="w3-half">
+				   <img class="w3-round-large" src="{{ url_for('static',filename='img/indianthali.jpg') }}" alt="Image not found" />
+					
+				</div>
+				<div class="w3-half">
+                    <img class="w3-round-large" src="{{ url_for('static',filename='img/completemeal.jpg') }}" alt="Image not found" />
+				</div>
+			</div>
+			 <div class="w3-row">
+				<div class="w3-half">
+				    <img class="w3-round-large" src="{{ url_for('static',filename='img/south-indian.jpg') }}" alt="Image not found"/>
+				</div>
+				<div class="w3-half">
+                    <img class="w3-round-large" src="{{ url_for('static',filename='img/mushroom.jpg') }}" alt="Image not found" />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="w3-button w3-hover-grey w3-red" onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa fa-arrow-up"></i></div>
+</header>
+
+<script>
+// Get the modal
+var modal1 = document.getElementById('id02');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+	if (event.target == modal1) {
+		modal.style.display = "none";
+	}
+}
+</script>
+
+
+<script>
+function myFunction() {
+  // Declare variables
+  var input, filter, ul, li, a, i, txtValue;
+  input = document.getElementById('myInput');
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("myUL");
+  li = ul.getElementsByTagName('li');
+
+  // Loop through all list items, and hide those who don't match the search query
+  for (i = 0; i < li.length; i++) {
+	a = li[i].getElementsByTagName("a")[0];
+	txtValue = a.textContent || a.innerText;
+	if (txtValue.toUpperCase().indexOf(filter) > -1) {
+	  li[i].style.display = "";
+	} else {
+	  li[i].style.display = "none";
+	}
+  }
+}
+
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+	document.getElementById("navbar").style.padding = "30px 10px";
+	document.getElementById("logo").style.fontSize = "25px";
+  } else {
+	document.getElementById("navbar").style.padding = "30px 10px";
+	document.getElementById("logo").style.fontSize = "35px";
+  }
+}
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+  for (i = 0; i < slides.length; i++) {
+	  slides[i].style.display = "none";
+  }
+  for (i = 0; i < dots.length; i++) {
+	  dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+}
+// Get the modal
+var modal = document.getElementById('id01');
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+	if (event.target == modal) {
+		modal.style.display = "none";
+	}
+}
+</script>
+<script>
+//Get the button
+var mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+	mybutton.style.display = "block";
+  } else {
+	mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}
+</script>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Orders{% endblock %}
+{% block content %}
+<div class="w3-container">
+	<form method="post">
+		<div class="w3-container w3-margin-top w3-padding">
+			<div class="w3-container w3-margin-bottom">
+				<div class="w3-xlarge w3-left w3-margin-right">Enter coupon code:</div>
+				<input type="text" class="w3-input w3-third w3-border" name="text_coupon_code" value="" />
+			</div>
+			<div class="w3-container w3-margin-bottom">
+				<div class="w3-xlarge w3-left w3-margin-right">Enter customer email:</div>
+				<input type="text" class="w3-input w3-third w3-border" name="text_customer_email" value="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" />
+				<input type="submit" class="w3-button w3-border w3-margin-left w3-hover-green" name="button_submit" value="Go"/>
+			</div>
+		</div>
+	</form>
+	{% if selected_list %}
+	<div class="w3-container">
+		<div class="w3-card w3-round-large w3-third w3-margin w3-hover-shadow">
+			<div class="w3-container">
+				<h3>{{selected_list[1]}}</h3>
+				{% for item in selected_list[2] %}
+					<div class="w3-text-black w3-large">
+						{{item[0]}} x{{item[1]}}
+					</div>
+				{% endfor %}
+				<h3 class="w3-text-green w3-right">Rs. {{selected_list[3]}}</h3>
+			</div>
+			<footer class="w3-container w3-margin-bottom">
+				<div class="w3-text-red">Uses: Not implemented yet</div>
+					<form method="post">
+						<input type="text" value= "{{selected_list[0]}}" name="text_order_info" hidden/>
+						<input type="submit" class="w3-blue w3-right w3-button w3-round" name="button_mark_used" value="Mark as used" />
+					</form>
+			</footer>
+		</div>
+	</div>
+	<div class="w3-center w3-margin-top w3-xxlarge w3-text-blue w3-light-grey">Upcoming orders</div>
+	{% endif %}
+	<div class="w3-container">
+		{% for order in order_list %}
+			<div class="w3-card w3-round-large w3-third w3-margin w3-hover-shadow">
+				<div class="w3-container">
+					<h3>{{order[1]}}</h3>
+					{% for item in order[2] %}
+						<div class="w3-text-black w3-large">
+							{{item[0]}} x{{item[1]}}
+						</div>
+					{% endfor %}
+					<h3 class="w3-text-green w3-right">Rs. {{order[3]}}</h3>
+				</div>
+				<footer class="w3-container w3-margin-bottom">
+					<div class="w3-text-red">Uses: Not implemented yet</div>
+				</footer>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

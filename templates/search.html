@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block css %}
+	<link rel="stylesheet" href="http://static.sasongsmat.nu/fonts/vegetarian.css" />
+{% endblock %}
+{% block content %}
+	<form method="get">
+		<div class="w3-container w3-margin-top w3-padding">
+			<div class="w3-xlarge w3-left w3-margin-right">Search for a restaurant:</div>
+			<input type="text" class="w3-input w3-third w3-border" name="text_query_name" value="{{text_query}}" />
+			<input type="submit" class="w3-button w3-border w3-margin-left w3-hover-green" name="button_submit" value="Go"/>
+		</div>
+	</form>
+	<div class="w3-container w3-padding-small">
+	{% for restaurant in query_result %}
+		<div class="w3-card w3-margin w3-round-large w3-hover-shadow w3-sand				{% if restaurant.images %}
+						w3-twothird
+					{% else %}
+						w3-half
+					{% endif %}"	>
+			{% if restaurant.images %}
+				<div class="w3-left">
+					<img src="{{url_for('send_image', filename=restaurant.images[0].image_name)}}" height="210px" class="w3-round-large" />
+				</div>
+			{% endif %}
+			<div class="w3-container w3-rest">
+				<div class="w3-margin-top w3-xlarge w3-padding-small">
+					{{restaurant.name}}
+					{% if restaurant.vegetarian == 1 %}
+						<span class="vegetarianicon w3-right">⊡</span>
+					{% endif %}
+				</div>
+				<div class="w3-padding w3-text-black">
+					{{restaurant.address}}<br/>
+					Hygiene Rating:
+					{% for star in range(restaurant.rating|int) %}
+						<i class="fa fa-star w3-text-green"></i>
+					{% endfor %}
+					{% for star in range(5-restaurant.rating|int) %}
+						<i class="fa fa-star-o w3-text-green"></i>
+					{% endfor %}
+					<br/>
+					<div class="w3-left-align">
+						<div class="w3-large w3-right w3-round w3-padding w3-margin-bottom w3-blue w3-right-align">
+						Average price Rs. {{ restaurant.average_cost }}
+						</div>
+						<br/><br/><br/>
+						{% for tag in restaurant.tags.split(", ")[:3] %}
+							<a href="/search?text_query_name={{tag}}" class=" w3-red w3-round-large w3-padding-small w3-button">{{tag}}</a>
+						{% endfor %}
+						<a href="/restaurant/{{restaurant.id}}" class="w3-button w3-right w3-green w3-round w3-padding w3-margin-bottom">View Menu</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
+	<div class="w3-container w3-center w3-large w3-margin-top-32">
+		Look's like you've reached the end for this search
+	</div>
+{% endblock %}

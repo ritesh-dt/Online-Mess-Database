@@ -1,0 +1,349 @@
+
+.home-header {
+   	 width: 100%; height: 100vh;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.home-header.masthead .post-heading .meta {
+  font-size: 20px;
+  font-weight: 300;
+  font-style: italic;
+  font-family: 'Lora', 'Times New Roman', serif;
+}
+
+.home-header.masthead .post-heading .meta a {
+  color: #fff;
+}
+
+@media only screen and (min-width: 768px) {
+  .home-header.masthead .post-heading h1 {
+    font-size: 55px;
+  }
+  .home-header.masthead .post-heading .subheading {
+    font-size: 30px;
+  }
+}
+
+#menu, #gallery, #team {
+}
+.parallax-section {
+  background-attachment: fixed !important;
+  background-size: cover !important;
+}
+div.main{
+	overflow: auto;
+}
+.main-nav li{
+	display: inline-block;
+	list-style: none;
+	margin-left: 40px;
+}
+.main-nav li a{
+	padding: 5px 0;
+	color: #fff;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-size: 90%;
+	font-weight: 100;
+}
+.main-nav li a:hover{
+	border-bottom: 2px solid #bf55ec;
+}
+/* menu section */
+#menu h4 {
+	line-height: 1.5;
+}
+#menu .col-md-8 {
+  padding-bottom: 42px;
+}
+#menu .col-md-6 {
+  padding-bottom: 18px;
+}
+#menu span {
+  color: #5C5C5C;
+}
+
+section h3{
+    font-size: 75px; font-weight: 200; letter-spacing:3px;
+}
+section h2{
+	font-size: 55px; font-weight: 200; letter-spacing:1px;
+	color: white;
+}
+section h2{
+	font-size: 55px;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+section p{
+	font-size: 25px;
+	word-spacing: 2px;
+	margin-bottom: 25px;
+}
+section a{
+	padding: 12px 30px;
+	border-radius: 4px;
+	outline: none;
+	text-transform: uppercase;
+	font-size: 13px;
+	font-weight: 500;
+	text-decoration: none;
+	letter-spacing: 1px;
+	transition: all .5s ease;
+	color: white;
+}
+section .btn{
+	display: inline-block;
+	padding: 10px 30px;
+	font-weight: lighter;
+	text-decoration: none;
+	text-transform: uppercase;
+	border-radius: 200px;
+	transition: background-color 0.2s, border 0.2s, color 0.2;
+}
+section .contact{
+	display: inline-block;
+	padding: 10px 30px;
+	font-weight: lighter;
+	text-decoration: none;
+	text-transform: uppercase;
+	border-radius: 200px;
+	transition: background-color 0.2s, border 0.2s, color 0.2;
+}
+
+.btn-full{
+	background-color: transparent;
+	color: #bf55ec;
+	margin-right: 15px;
+	border: 1px solid #bf55ec;
+}
+
+.btn-full:hover{
+	background-color: #fff;
+}
+
+.btn-nav{
+	background-color: transparent;
+	color: #fff;
+	border: 1px solid #fff;
+}
+
+.btn-nav:hover{
+	background-color: #bf55ec;
+}
+
+section .btnone{
+	background: #fff;
+	color: #000;
+}
+.btnone:hover{
+	background: #00b894;
+    color: white;
+}
+section .btntwo{
+	background: #00b894;
+    color: white;
+}
+.btntwo:hover{
+	background: #fff;
+	color: #000;
+}
+.change_content:after{
+	content: '';
+	animation: changetext 10s infinite linear;
+	color: #00b894;
+}
+
+#myBtn {
+  display: none;
+  position: fixed;
+  width:65px;
+  bottom: 5px;
+  right: 8px;
+  z-index: 49;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: red;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+#myBtn:hover {
+  background-color: #555;
+}
+/* gallery section */
+#gallery {
+  padding-top: 0px;
+  padding-bottom: 40px;
+}
+#gallery .col-md-4 {
+  padding-top: 52px;
+}
+#gallery img {
+  width: 90%;
+  padding-bottom: 18px;
+}
+#gallery .col-md-4 div {
+  position: relative;
+  bottom: 18px;
+  padding-bottom: 12px;
+}
+#gallery h3 {
+  font-size: 18px;
+  line-height: 8px;
+}
+/* contact section */
+#contact {
+  padding-top: 80px;
+  padding-bottom: 100px;
+}
+#contact .col-md-8 {
+  margin-bottom: 32px;
+}
+#contact .form-control {
+  background: #ffffff;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  transition: all 0.4s ease-in-out;
+}
+#contact .form-control:focus {
+  border-color: #f9f9f9;
+}
+#contact input {
+  height: 48px;
+}
+#contact input[type="submit"] {
+  background: transparent;
+  border: 2px solid #999;
+  border-radius: 10px;
+  letter-spacing: 2px;
+  margin-top: 12px;
+  height: 50px;
+}
+#contact input[type="submit"]:hover {
+  background: #999;
+  color: #ffffff;
+}
+carousel {
+	width: 100%;
+	height: 700;
+	background-repeat:no-repeat;
+        	background-size:100% 100%; 
+	padding-right: 100px;
+	padding-left: 100px;
+	overflow: auto;
+	white-space: nowrap;
+}
+
+#carousel .image_tile {
+	display: inline-block;
+}
+#mysub {
+  background-color: #555;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+}
+
+/* The popup form - hidden by default */
+#mysub.form-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+}
+
+/* Add styles to the form container */
+#mysub.form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+#mysub.form-container input[type=text], .form-container input[type=password] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: none;
+  background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+#mysub.form-container input[type=text]:focus, .form-container input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+section .btntwo{
+	background: #00b894;
+    color: white;
+}	
+.btntwo:hover{
+	background: #fff;
+	color: #000;
+}
+* Set a style for all buttons */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity:1;
+}
+
+/* Extra styles for the cancel button */
+.cancelbtn1 {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+
+/* Float cancel and signup buttons and add an equal width */
+.cancelbtn1, .signupbtn {
+  float: left;
+  width: 50%;
+}
+
+/* Add padding to container elements */
+.container {
+  padding: 16px;
+}
+#myBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: red;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 4px;
+}
+
+#myBtn:hover {
+  background-color: #555;
+}

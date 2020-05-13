@@ -1,0 +1,44 @@
+#navbar {
+	align-content: center;
+	vertical-align: middle;
+	position: absolute;
+  border-bottom: 1px solid #e9ecef;
+  background-color: white;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+#navbar a {
+	position: absolute;
+	top: 50%;
+}
+
+#navbar a:hover {
+	border-bottom: 2px solid #bf55ec;
+}
+#myBtn {
+  display: none;
+  position: fixed;
+  width:65px;
+  bottom: 5px;
+  right: 8px;
+  z-index: 49;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: red;
+  color: white;
+  cursor: pointer;
+  padding: 15px;
+  border-radius: 12px;
+}
+
+#myBtn:hover {
+  background-color: #555;
+}
+section .btntwo{
+	background: #00b894;
+    color: white;
+}	
+.btntwo:hover{
+	background: #fff;
+	color: #000;
+}

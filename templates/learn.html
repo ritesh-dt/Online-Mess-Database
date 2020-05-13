@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Learn more{% endblock %}
+{% block content %}
+	<div class="w3-panel w3-acp-light-green w3-leftbar w3-rightbar w3-border-acp-mid-green w3-center w3-padding w3-margin-bottom">
+		<div class="w3-xxxlarge w3-margin-bottom">Made by students, for students</div>
+		<div class="w3-large w3-margin-left">We know the difficulty of managing monthly expenses against the over-priced college activities and restaurant meals</div>
+	</div>
+	<div class="w3-container">
+		<div class="w3-panel w3-sand w3-border-acp-grey w3-topbar w3-bottombar w3-center w3-round-large">
+			<div class="w3-xxlarge w3-margin-top">Our Aim</div>
+				<p>Help students find affordable and hygenic meals to not only students but also to people who may be new to their locality</p>
+		</div>
+		<div class="w3-card-2 w3-container w3-round-large">
+			<div class="w3-xlarge w3-margin-top w3-center">Search, Select and Subscribe</div>
+			<ol class="w3-ul w3-center">
+				<li class="w3-large">
+					<img src="{{ url_for('static', filename='img/search.png') }}" class="w3-round w3-right-align" width="50%" alt="Image not found"/>
+				</li>
+				<li class="w3-large">
+					<img src="{{ url_for('static', filename='img/menu.png') }}" class="w3-round w3-right-align" width="45%" alt="Image not found"/>
+				</li>
+				<li class="w3-large">
+					<img src="{{ url_for('static', filename='img/subscribe.png') }}" class="w3-round w3-right-align" width="30%" alt="Image not found"/>
+				</li>
+			</ol>
+		</div>
+		<div class="w3-panel w3-padding w3-acp-dark-green w3-border-acp-mid-green w3-leftbar w3-large">
+			Built using <a href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a> and designed using <a href="https://www.w3schools.com/w3css/">W3CSS</a>
+			<br/>
+			Developed by:
+			<div class="w3-container">
+				Ritesh Thakur - <a href="mailto:riteshdthakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
+				<a href="https://twitter.com/ritesh_dt" target="_blank"><i class="fa fa-twitter w3-xlarge"></i></a>
+				<br/>
+				Amey Thakur - <a href="mailto:amey36thakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
+				<a href="https://twitter.com/AmeyThakur9" target="_blank"><i class="fa fa-twitter w3-xlarge"></i></a>
+			</div>
+		</div>
+	</div>
+{% endblock %}

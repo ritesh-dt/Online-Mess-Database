@@ -1,0 +1,168 @@
+<html>
+<head>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style/base.css') }}">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- W3.CSS stylesheet and Font Awesome icons 
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">	-->
+	<link rel="stylesheet" href="{{ url_for('static', filename='style/w3css.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>{% block title %}{% endblock %}</title>
+	{% block css %}{% endblock %}
+</head>
+<body>
+<div class="w3-bar navbar w3-acp-dark-green"style="height: 11vh;display:block;justify-content:space-between;overflow: hidden;align-items: center;text-transform: uppercase;padding: 20px 10px !important;">
+	<p class="w3-bar-item w3-large" style="margin: 0"><b>A Way To Find A Mess...</b></p>
+	<a href="/home" class="w3-bar-item w3-button">Home</a>
+	<a href="/search?text_query_name=" class="w3-bar-item w3-button">Search</a>
+	{% if logged_in %}
+		<div class="w3-dropdown-click w3-right">
+			<button class="w3-button" onclick="displayUserSettings()">
+				{{ logged_in[0] }} <i class="fa fa-caret-down"></i>
+			</button>
+			<div id="userSettings" class="w3-dropdown-content w3-bar-block w3-light-grey" style="text-transform: none;">
+				{% if logged_in[1] == "Regular" %}
+					<a class="w3-bar-item w3-button" href="/user/subscriptions">Subscriptions</a>
+				{% elif logged_in[1] == "Business" %}
+					<a class="w3-bar-item w3-button" href="/user/restaurant">Manage your business</a>
+					<a class="w3-bar-item w3-button" href="/user/orders">Orders</a>
+				{% endif %}
+				<a class="w3-bar-item w3-button" href="/forgot">Update password</a>
+				<a class="w3-bar-item w3-button" href="/logout">Logout</a>
+			</div>
+		</div>
+	{% else %}
+		<button class="w3-bar-item w3-button w3-right w3-hover-blue" onclick="document.getElementById('signup_modal').style.display='block'">Register</a>
+		<button class="w3-bar-item w3-button w3-right  w3-hover-green" onclick="document.getElementById('login_modal').style.display='block'">Login</a>
+		
+	{% endif %}
+</div>
+
+<main>
+
+	{% with messages = get_flashed_messages(with_categories=True) %}
+		{% if messages %}
+			{% for category, msg in messages %}
+				<div class="w3-panel w3-display-container 
+					{% if category == 'error' %}
+						w3-red
+					{% elif category == 'success' %}
+						w3-green
+					{% else %}
+						w3-blue
+					{% endif %} ">
+					<span class="w3-button w3-display-topright w3-hover-none" onclick="this.parentElement.style.display='none'">&times;</span>
+					<p>{{ msg }}</p>
+				</div>
+			{% endfor %}
+		{% endif %}
+	{%endwith %}
+	{% block content %}{% endblock %}
+</main>
+{% if not logged_in %}
+	<div id="login_modal" class="w3-card w3-display-container w3-border w3-third w3-light-grey w3-display-middle" style="display: none">
+		<header class="w3-container">
+			<span class="w3-display-topright w3-button" onclick="document.getElementById('login_modal').style.display='none'">&times;</span>
+			<h4>Login to your account</h4>
+		</header>
+
+		<form action="/login" method="post">
+			<div class="w3-container w3-padding-32">
+				<label>Email:</label>
+				<input type="text" class="w3-input w3-border" name="text_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+				<label>Password:</label>
+				<input type="password" class="w3-input w3-border" name="text_password" required>
+			</div>
+		
+			<footer class="w3-container w3-padding">
+				<button type="submit" class="w3-button w3-green" >Login</button>
+				<a href="forgot" class="w3-button w3-red w3-right">Forgot Password</a>
+			</footer>
+		</form>
+	</div>
+	<div id="signup_modal" class="w3-card w3-display-container w3-border w3-third w3-light-grey w3-display-middle" style="display: none">
+		<header class="w3-container w3-margin">
+			<span class="w3-display-topright w3-button" onclick="document.getElementById('signup_modal').style.display='none'">&times;</span>
+			<h4>Register</h4>
+		</header>
+
+		<form action="/signup" method="post">
+			<div class="w3-container ">
+				<div class="w3-row-padding">
+					<div class="w3-rest w3-margin-left">
+						<label>Account type:</label>
+					</div>
+				</div>
+				<div class="w3-row-padding w3-margin-bottom w3-margin-left">
+					<div class="w3-half">
+						<label>Regular</label>
+						<input type="radio" class="w3-radio" name="radio_account_type" value="Regular" checked>
+					</div>
+					<div class="w3-half">
+						<label>Business</label>
+						<input type="radio" class="w3-radio" name="radio_account_type" value="Business">
+					</div>
+				</div>
+				<div class="w3-row-padding">
+					<div class="w3-half">
+						<label>First name:</label>
+						<input type="text" class="w3-input w3-border" name="text_first_name" required>
+					</div>
+					<div class="w3-half">
+						<label>Last name:</label>
+						<input type="text" class="w3-input w3-border" name="text_last_name" required>
+					</div>
+				</div>
+				<div class="w3-padding">
+					<label>Email:</label>
+					<input type="text" class="w3-input w3-border w3-padding" name="text_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+					<label>Password:</label>
+					<input type="password" class="w3-input w3-border" name="text_password" required>
+					<label>Repeat password:</label>
+					<input type="password" class="w3-input w3-border" name="text_repeat_password" required>
+					<button type="submit" class="w3-button w3-green w3-margin-top" >Register</button>
+				</div>
+			</div>
+		
+			<footer class="w3-container">
+			</footer>
+		</form>
+	</div>
+{% else %}
+<script type="text/javascript">
+	function displayUserSettings() {
+	  	var x = document.getElementById("userSettings");
+		if (x.className.indexOf("w3-show") == -1) {
+			x.className += " w3-show";
+		} else { 
+			x.className = x.className.replace(" w3-show", "");
+		}
+	}
+	function openForm() {
+  document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+}
+
+var mybutton = document.getElementById("myBtn");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    mybutton.style.display = "block";
+  } else {
+    mybutton.style.display = "none";
+  }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+}</script>
+{% endif %}
+</body>
+</html>

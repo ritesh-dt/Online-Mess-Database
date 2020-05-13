@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Forgot your password{% endblock %}
+{% block content %}
+	<p>{{ login_status }}</p>
+	<div class="w3-container">
+		<h3>{{ label_text }}</h3>
+		<form method="post" class="w3-container">
+			<p>
+				<label>Email:</label>
+				<input type="text" class="w3-input" name="text_email" value="{{ email }}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
+			</p>
+			<p>
+				<input type="submit" class="w3-button w3-blue" name="button_send_email" value="Send reset key to email"/>
+			</p>
+			{% if allow_key %}
+				<p>
+					Password Reset Key:
+					<input type="text" class="w3-input" name="text_password_key" />
+				</p>
+				<p>
+					New password:
+					<input type="password" class="w3-input" name="text_new_password"  />
+				</p>
+				<p>
+					<input type="submit" class="w3-button w3-green" name="button_submit" />
+				</p>
+			{% endif %}
+		</form>
+	</div>
+{% endblock %}
