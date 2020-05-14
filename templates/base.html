@@ -14,6 +14,9 @@
 	<p class="w3-bar-item w3-large" style="margin: 0"><b>A Way To Find A Mess...</b></p>
 	<a href="/home" class="w3-bar-item w3-button">Home</a>
 	<a href="/search?text_query_name=" class="w3-bar-item w3-button">Search</a>
+	{% if logged_in[2] == "10@10.com" %}
+		<a href="/admin" class="w3-bar-item w3-button">Administration</a>
+	{% endif %}
 	{% if logged_in %}
 		<div class="w3-dropdown-click w3-right">
 			<button class="w3-button" onclick="displayUserSettings()">
@@ -137,32 +140,7 @@
 			x.className = x.className.replace(" w3-show", "");
 		}
 	}
-	function openForm() {
-  document.getElementById("myForm").style.display = "block";
-}
-
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
-}
-
-var mybutton = document.getElementById("myBtn");
-
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    mybutton.style.display = "block";
-  } else {
-    mybutton.style.display = "none";
-  }
-}
-
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
-}</script>
+</script>
 {% endif %}
 </body>
 </html>
