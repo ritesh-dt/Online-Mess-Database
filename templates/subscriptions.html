@@ -21,10 +21,11 @@
 						{{order[0]}} x{{order[1]}}
 					</div>
 				{% endfor %}
+				<h3 class="w3-text-green">Rs. {{restaurant[2]}}</h3>
 			</div>
-			<footer class="w3-container w3-margin-bottom">
-				<h3 class="w3-text-green w3-right">Rs. {{restaurant[2]}} Code - {{restaurant[4]}}</h3>
-				<div class="w3-text-red">Valid till {{ restaurant[3] }}</div>
+			<footer class="w3-container">
+				<div class="w3-text-blue w3-light-grey w3-round w3-padding w3-right-align w3-xlarge">Coupon code - {{restaurant[4]}}</div>
+				<div class="w3-text-red w3-small w3-margin-top w3-margin-bottom">Valid till {{ restaurant[3] }}</div>
 			</footer>
 		</div>
 	{% endfor %}

@@ -29,17 +29,9 @@
 				<label>Phone: </label> 
 				<input type="tel" class="w3-input" name="text_phone" value="{{ restaurant.phone }}" pattern="+91[0-9]*10" />
 			</p>
-			<p>	
-				<label>Website: </label>
-				<input type="url" class="w3-input" name="text_website" value="{{ restaurant.website }}" />
-			</p>
 			<p>
 				<label>Timing: </label>
 				<input type="time" class="w3-input" name="text_timing" value="{{ restaurant.timing }}" />
-			</p>
-			<p>
-				<label>Hygiene rating (0-5): </label>
-				<input type="text" class="w3-input" name="text_hygiene_rating" value="{{ restaurant.rating|int }}" pattern="[0-5]{1}"/>
 			</p>
 			<p>
 				<label>Tags (kids-friendly, south indian, etc): </label>
