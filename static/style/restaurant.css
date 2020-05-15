@@ -22,6 +22,10 @@
   width: 280px;
 }
 
+#buy{
+  align-items: center;
+}
+
 /* The popup form - hidden by default */
 #mysub.form-popup {
   display: none;

@@ -79,12 +79,11 @@
 		</div>
 		</form>
 	</div>
-	<div class="w3-container">
-		<div class="w3-center w3-margin-top w3-xxlarge w3-text-blue w3-light-grey">Info</div>
-		<div class="w3-margin w3-xlarge w3-center">
+	
+		<div class="w3-xlarge w3-center w3-dark-grey w3-padding">
 			Address: {{restaurant.address}}<br/>
 			Phone: {{restaurant.phone}}<br/>
-			Timings: {{restaurant.timing}}<br/>
+			Timing: from {{restaurant.opening_timing}} to {{restaurant.closing_timing}}<br/>
 			Tags: {% for tag in restaurant.tags.split(", ") %}
 					<a href="/search?text_query_name={{tag}}" class=" w3-button w3-red w3-round-large w3-padding-small w3-medium">{{tag}}</a>
 				{% endfor %}

@@ -7,7 +7,7 @@
 	<form method="get">
 		<div class="w3-container w3-margin-top w3-padding">
 			<div class="w3-xlarge w3-left w3-margin-right">Search for a restaurant:</div>
-			<input type="text" class="w3-input w3-third w3-border" name="text_query_name" value="{{text_query}}" />
+			<input type="text" class="w3-input w3-third w3-border" name="text_query_name"placeholder="Search by Name, dish or place" value="{{text_query}}" />
 			<input type="submit" class="w3-button w3-border w3-margin-left w3-hover-green" name="button_submit" value="Go"/>
 		</div>
 	</form>
@@ -41,8 +41,14 @@
 					{% endfor %}
 					<br/>
 					<div class="w3-left-align">
-						<div class="w3-large w3-right w3-round w3-padding w3-margin-bottom w3-blue w3-right-align">
-						Average price Rs. {{ restaurant.average_cost }}
+						<div class=" w3-large w3-right w3-round w3-padding w3-blue">
+							<div class="w3-container w3-padding-small">
+								<span class="w3-left-align">Thali - </span>
+								Rs. 
+								<span style="text-decoration: line-through;" class="w3-small">
+									{{ restaurant.main_menu_price }}</span>
+								{{ restaurant.main_menu_price * 0.7}}
+							</div>
 						</div>
 						<br/><br/><br/>
 						{% for tag in restaurant.tags.split(", ")[:3] %}
