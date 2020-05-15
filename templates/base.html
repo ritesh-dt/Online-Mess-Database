@@ -10,15 +10,15 @@
 	{% block css %}{% endblock %}
 </head>
 <body>
-<div class="w3-bar navbar w3-acp-dark-green"style="height: 11vh;display:block;justify-content:space-between;overflow: hidden;align-items: center;text-transform: uppercase;padding: 20px 10px !important;">
+<div class="w3-bar navbar w3-acp-dark-white"style="height: 15vh;display:block;justify-content:space-between;overflow: hidden;align-items: center;text-transform: uppercase;padding: 20px 10px !important;">
 	<p class="w3-bar-item w3-large" style="margin: 0"><b>A Way To Find A Mess...</b></p>
 	<a href="/home" class="w3-bar-item w3-button">Home</a>
-	<a href="/search?text_query_name=" class="w3-bar-item w3-button">Search</a>
+	<a href="/search?text_query_name=" class="w3-bar-item w3-button">Explore</a>
 	{% if logged_in[2] == "10@10.com" %}
 		<a href="/admin" class="w3-bar-item w3-button">Administration</a>
 	{% endif %}
 	{% if logged_in %}
-		<div class="w3-dropdown-click w3-right">
+		<div class="w3-dropdown-click w3-right w3-margin-right">
 			<button class="w3-button" onclick="displayUserSettings()">
 				{{ logged_in[0] }} <i class="fa fa-caret-down"></i>
 			</button>

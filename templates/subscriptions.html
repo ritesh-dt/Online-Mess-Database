@@ -16,10 +16,15 @@
 	{% for restaurant in subscribed_list %}
 		<div class="w3-card w3-round-large w3-third w3-margin w3-hover-shadow">
 			<div class="w3-container">
-				<h3 class="w3-xlarge">{{restaurant[0].name}}</h3>
+				<h3 class="w3-xlarge">{{restaurant[0].name}}
+
+					<div class="w3-text-green w3-right">Rs. {{restaurant[2]}}</div> 
+
+				</h3>
+
 				{% for order in restaurant[1] %}
 					<div class="w3-text-black w3-large">
-						{{order[0]}} x{{order[1]}}
+						{{order[1]}} {{order[0]}} 
 					</div>
 				{% endfor %}
 				<h3 class="w3-text-green">Rs. {{restaurant[2]}}</h3>

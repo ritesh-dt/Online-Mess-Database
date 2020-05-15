@@ -41,18 +41,21 @@ class UsersDB(db.Model):
 class RestaurantsDB(db.Model):
 	id = db.Column(db.Integer, primary_key=True, unique=True)
 	name = db.Column(db.String(80))
-	menu = db.Column(db.String)
+	menu = db.Column(db.String(80))
+	rating = db.Column(db.Integer)
 	address = db.Column(db.String(80))
 	phone = db.Column(db.String(20))
-	timing = db.Column(db.String(80))
+	opening_timing = db.Column(db.String(80))
+	closing_timing = db.Column(db.String(80))
 	tags = db.Column(db.String(80))
 	owner = db.Column(db.Integer)
 	images = db.relationship('ImagesDB', backref='parent_rest')
 	monthly_items = db.Column(db.String(300))
-	rating = db.Column(db.Integer)
 	vegetarian = db.Column(db.Boolean)
 	average_cost = db.Column(db.Float)
 	orders = db.Column(db.String)
+	main_menu_name = db.Column(db.String)
+	main_menu_price = db.Column(db.Float)
 
 class ImagesDB(db.Model):
 	id = db.Column(db.Integer, primary_key=True, unique=True)
@@ -343,7 +346,35 @@ def restaurant(restaurant_id):
 						db.session.add(currentOrder)
 						db.session.commit()
 
-						flash("Order successful!! You have to pay the price at the mess", "success")
+				subscribed_list = []
+				currentBills = BillsDB.query.filter_by(subscriber=currentUser.id, active=0b1).all()
+				if currentBills:
+					updated_subscriptions = currentBills
+					for bill in currentBills:
+						if bill:
+							restaurant_id = bill.creator
+							end_date = datetime.strptime(bill.timestamp, '%Y-%m-%d %H:%M:%S.%f') +timedelta(days=1)
+
+							restaurant = RestaurantsDB.query.filter_by(id=restaurant_id).first()
+							if restaurant:
+								if datetime.now() > end_date:
+									updated_subscriptions.remove(bill)
+									bill.active = 0b0
+									bill.coupon = ""
+									db.session.commit()
+									flash(f"{restaurant.name} - Subscription expired on {end_date.strftime('%a, %d %b %Y')}", "error")
+									continue
+								bill_orders = OrdersDB.query.filter_by(bill_id=bill.id).all()
+								items = []
+								for order in bill_orders:
+									print("Order", order)
+									items.append([order.item, order.quantity, order.price])
+
+								subscribed_list.append([restaurant, items, bill.total_price, end_date.strftime("%a, %d %b %Y"), bill.coupon])
+
+					flash("Order successful!! You have to pay the price at the mess", "success")
+				return render_template("subscriptions.html", logged_in=loggedIn, email=session["user"], subscribed_list=subscribed_list, verified=currentUser.verified)
+
 			else:
 				flash("Please login first!!", "error")
 			return redirect(url_for("restaurant", restaurant_id=restaurant_id))
@@ -423,7 +454,7 @@ def user_restaurant():
 		return redirect(url_for("subscriptions", logged_in=[session["username"], session["account_type"]]))
 	currentRest = RestaurantsDB.query.filter_by(owner=currentUser.id).first()
 	if not currentRest:
-		currentRest = {key: "" for key in ["name", "address", "phone", "timing", "tags", "rating"]}
+		currentRest = {key: "" for key in ["name", "address", "phone",  "opening_timing","closing_timing", "tags", "rating"]}
 		list_menu = [("", "", "Other", 0) for i in range(15)]
 		list_menu[0] = ("", "", "Other", 1)
 	else:
@@ -458,24 +489,27 @@ def user_restaurant():
 				checkbox_vegetarian = 0b0
 			text_address = request.form["text_address"]
 			text_phone = request.form["text_phone"]
-			text_timing = request.form["text_timing"]
+			text_timing_opening = request.form["text_timing_opening"]
+			text_timing_closing = request.form["text_timing_closing"]
 			text_tags = request.form["text_tags"]
+			main_menu_name = request.form["main_menu_name"]
+			main_menu_price = request.form["main_menu_price"]
 			if checkbox_vegetarian == 0b1 and "vegan" not in text_tags:
 				text_tags += ", vegan"
 			text_menu_names = [request.form[f"text_menu_name_{i}"] for i in range(15) if f"text_menu_name_{i}" in request.form]
 			text_menu_prices = [request.form[f"text_menu_price_{i}"] for i in range(15) if f"text_menu_price_{i}" in request.form]
 			dropdown_categories = [request.form[f"dropdown_categories_{i}"] for i in range(15) if f"dropdown_categories_{i}" in request.form]
-			radio_search_display = int(request.form["radio_search_display"].split("_")[-1])
+			#radio_search_display = int(request.form["radio_search_display"].split("_")[-1])
 
 			search_display = [0 for _ in range(15)]
-			search_display[radio_search_display] = 1
+			#search_display[radio_search_display] = 1
 			#average_cost = sum(list(map(int, [item for item in text_menu_prices if item != ""])))/len([item for item in text_menu_names if item != ""])
 
 			text_menu_subscribe = [0 for _ in range(15)] 
 			for key in filter(lambda x: "checkbox_menu_subscribe_" in x, request.form.keys()):
 				text_menu_subscribe[int(key.split("_")[-1])] = 1
 			
-			if not check_details(text_name, text_address, text_phone, text_timing, text_tags, text_menu_names, text_menu_prices):
+			if not check_details(text_name, text_address, text_phone,  text_timing_opening, text_timing_closing, text_tags, text_menu_names, text_menu_prices, main_menu_name, main_menu_price):
 				flash("Please fill all the restaurant details", "error")
 			else:
 
@@ -483,19 +517,21 @@ def user_restaurant():
 
 				if not RestaurantsDB.query.filter_by(owner=currentUser.id).first():
 					flash("Added your restaurant successfully!!!", "success")
-					db.session.add(RestaurantsDB(name=text_name, address=text_address, phone=text_phone, timing=text_timing, tags=text_tags, menu=text_menu, owner=currentUser.id, rating=None, vegetarian=checkbox_vegetarian, average_cost=average_cost))
+					db.session.add(RestaurantsDB(name=text_name, address=text_address, phone=text_phone,  opening_timing=text_timing_opening, closing_timing=text_timing_closing, tags=text_tags, menu=text_menu, owner=currentUser.id,  vegetarian=checkbox_vegetarian, main_menu_name = main_menu_name, main_menu_price = main_menu_price, rating=None))
 					currentRest = RestaurantsDB.query.filter_by(owner=currentUser.id).first()
 				else:
 					flash("Updated your restaurant details successfully!!!", "success")
 					currentRest.name = text_name
 					currentRest.address=text_address
 					currentRest.phone=text_phone
-					currentRest.timing=text_timing
+					currentRest.opening_timing=text_timing_opening
+					currentRest.closing_timing=text_timing_closing
 					currentRest.tags=text_tags
 					currentRest.menu=text_menu
 					currentRest.owner=currentUser.id
 					currentRest.vegetarian = checkbox_vegetarian
-					currentRest.average_cost = average_cost
+					currentRest.main_menu_name = main_menu_name
+					currentRest.main_menu_price = main_menu_price
 				db.session.commit()
 			
 				list_menu = [tuple(item.split("~")) for item in currentRest.menu.split("| ")]
