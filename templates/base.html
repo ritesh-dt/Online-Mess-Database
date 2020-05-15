@@ -45,7 +45,7 @@
 	{% with messages = get_flashed_messages(with_categories=True) %}
 		{% if messages %}
 			{% for category, msg in messages %}
-				<div class="w3-panel w3-display-container 
+				<div class="w3-container w3-display-container 
 					{% if category == 'error' %}
 						w3-red
 					{% elif category == 'success' %}
@@ -67,8 +67,7 @@
 			<span class="w3-display-topright w3-button" onclick="document.getElementById('login_modal').style.display='none'">&times;</span>
 			<h4>Login to your account</h4>
 		</header>
-
-		<form action="/login" method="post">
+		<form action="{{ '/login' + request.full_path }}" method="post">
 			<div class="w3-container w3-padding-32">
 				<label>Email:</label>
 				<input type="text" class="w3-input w3-border" name="text_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
@@ -88,7 +87,7 @@
 			<h4>Register</h4>
 		</header>
 
-		<form action="/signup" method="post">
+		<form action="{{ '/signup' + request.full_path }}" method="post">
 			<div class="w3-container ">
 				<div class="w3-row-padding">
 					<div class="w3-rest w3-margin-left">
