@@ -42,7 +42,7 @@ class RestaurantsDB(db.Model):
 	id = db.Column(db.Integer, primary_key=True, unique=True)
 	name = db.Column(db.String(80))
 	menu = db.Column(db.String(80))
-
+	rating = db.Column(db.Integer)
 	address = db.Column(db.String(80))
 	phone = db.Column(db.String(20))
 	opening_timing = db.Column(db.String(80))
@@ -499,10 +499,10 @@ def user_restaurant():
 			text_menu_names = [request.form[f"text_menu_name_{i}"] for i in range(15) if f"text_menu_name_{i}" in request.form]
 			text_menu_prices = [request.form[f"text_menu_price_{i}"] for i in range(15) if f"text_menu_price_{i}" in request.form]
 			dropdown_categories = [request.form[f"dropdown_categories_{i}"] for i in range(15) if f"dropdown_categories_{i}" in request.form]
-			radio_search_display = int(request.form["radio_search_display"].split("_")[-1])
+			#radio_search_display = int(request.form["radio_search_display"].split("_")[-1])
 
 			search_display = [0 for _ in range(15)]
-			search_display[radio_search_display] = 1
+			#search_display[radio_search_display] = 1
 			#average_cost = sum(list(map(int, [item for item in text_menu_prices if item != ""])))/len([item for item in text_menu_names if item != ""])
 
 			text_menu_subscribe = [0 for _ in range(15)] 
@@ -517,7 +517,7 @@ def user_restaurant():
 
 				if not RestaurantsDB.query.filter_by(owner=currentUser.id).first():
 					flash("Added your restaurant successfully!!!", "success")
-					db.session.add(RestaurantsDB(name=text_name, address=text_address, phone=text_phone,  opening_timing=text_timing_opening, closing_timing=text_timing_closing, tags=text_tags, menu=text_menu, owner=currentUser.id,  vegetarian=checkbox_vegetarian, average_cost=average_cost, main_menu_name = main_menu_name, main_menu_price = main_menu_price, rating=None))
+					db.session.add(RestaurantsDB(name=text_name, address=text_address, phone=text_phone,  opening_timing=text_timing_opening, closing_timing=text_timing_closing, tags=text_tags, menu=text_menu, owner=currentUser.id,  vegetarian=checkbox_vegetarian, main_menu_name = main_menu_name, main_menu_price = main_menu_price, rating=None))
 					currentRest = RestaurantsDB.query.filter_by(owner=currentUser.id).first()
 				else:
 					flash("Updated your restaurant details successfully!!!", "success")
@@ -530,7 +530,6 @@ def user_restaurant():
 					currentRest.menu=text_menu
 					currentRest.owner=currentUser.id
 					currentRest.vegetarian = checkbox_vegetarian
-					currentRest.average_cost = average_cost
 					currentRest.main_menu_name = main_menu_name
 					currentRest.main_menu_price = main_menu_price
 				db.session.commit()
