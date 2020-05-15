@@ -16,65 +16,67 @@
 	
 	<div class="w3-center w3-xxxlarge w3-margin">{{ restaurant.name }}</div>
 	<div class="w3-container">
-		<div class="w3-center w3-margin-top w3-xxlarge w3-text-blue w3-light-grey">Menu</div>
+		<div class="w3-center w3-xxlarge w3-text-blue w3-light-grey">Menu</div>
 		<form method="post" id='order_form'>
+		{% for category, menu in categorized_menu.items() %}
+			<div class="w3-container w3-border-bottom w3-margin">
+				<div class="w3-xlarge">{{category}}</div>
+				{% for item in menu%}
+					{% if item[0] and item[1] %}
+						<div class="w3-card w3-round-large w3-quarter w3-margin w3-hover-shadow">
+							<div class="w3-container w3-padding">
+								<div class="w3-large w3-twothird">{{ item[0]}}</div>
+								<div class="w3-text-green w3-right w3-large w3-rest">Rs. {{ item[1]}}</div>
+							</div>
+							<footer class="w3-container w3-margin-bottom">
+								<div class="w3-button w3-border w3-content" onclick="
+									var current_count = parseInt(this.parentElement.children[1].value);
+									var current_price = parseInt(document.getElementById('text_total_price').value);
+									var item_price = parseInt('{{item[1]|int}}');
+									if (current_count >= 1)
+									{
+										this.parentElement.children[1].value = current_count - 1;
+										document.getElementById('text_total_price').value = current_price - item_price;
+										document.getElementById('label_total_price').textContent = 'Rs. ' + (current_price-item_price);
+									} ">
+									<i class="fa fa-minus"></i>
+								</div>
+									<input type="text" id="item_count" class="w3-padding-small w3-quarter w3-border w3-center w3-input w3-margin-right" value="0" name="text_count_{{item[-1]}}"readonly/>
+								<div class="w3-button w3-border w3-content" onclick="
+									var current_count = parseInt(this.parentElement.children[1].value);
+									var current_price = parseInt(document.getElementById('text_total_price').value);
+									var item_price = parseInt('{{item[1]|int}}');
 
-		{% for item in restaurant.menu.split("| ") %}
-			{% if item.split("~")[0] and item.split("~")[1]%}
-				<div class="w3-card w3-round-large w3-quarter w3-margin w3-hover-shadow">
-					<div class="w3-container w3-padding">
-						<div class="w3-large w3-twothird">{{ item.split("~")[0]}}</div>
-						<div class="w3-text-green w3-right w3-large w3-rest">Rs. {{ item.split("~")[1]}}</div>
-					</div>
-					<footer class="w3-container w3-margin-bottom">
-						<div class="w3-button w3-border w3-content" onclick="
-							var current_count = parseInt(this.parentElement.children[1].value);
-							var current_price = parseInt(document.getElementById('text_total_price').value);
-							var item_price = parseInt('{{item.split('~')[1]|int}}');
-							if (current_count >= 1)
-							{
-								this.parentElement.children[1].value = current_count - 1;
-								document.getElementById('text_total_price').value = current_price - item_price;
-								document.getElementById('label_total_price').textContent = 'Rs. ' + (current_price-item_price);
-							} ">
-							<i class="fa fa-minus"></i>
+									if (current_count <= 9)
+									{
+										this.parentElement.children[1].value = current_count + 1;
+										document.getElementById('text_total_price').value = current_price + item_price;
+										document.getElementById('label_total_price').textContent = 'Rs. ' + (current_price+item_price);
+									} ">
+									<i class="fa fa-plus"></i>
+								</div>
+								<!--
+								{% if item[2] == '1' %}
+								<input type="submit" name="button_subscribe_{{item[-1]}}" value="Subscribe" class="w3-button w3-blue w3-round-large" />
+								{% endif %}
+								-->
+							</footer>
 						</div>
-							<input type="text" id="item_count" class="w3-padding-small w3-quarter w3-border w3-center w3-input w3-margin-right" value="0" name="text_count_{{restaurant.menu.split('| ').index(item)}}"readonly/>
-						<div class="w3-button w3-border w3-content" onclick="
-							var current_count = parseInt(this.parentElement.children[1].value);
-							var current_price = parseInt(document.getElementById('text_total_price').value);
-							var item_price = parseInt('{{item.split('~')[1]|int}}');
-
-							if (current_count <= 9)
-							{
-								this.parentElement.children[1].value = current_count + 1;
-								document.getElementById('text_total_price').value = current_price + item_price;
-								document.getElementById('label_total_price').textContent = 'Rs. ' + (current_price+item_price);
-							} ">
-							<i class="fa fa-plus"></i>
-						</div>
-						<!--
-						{% if item.split("~")[2] == '1' %}
-						<input type="submit" name="button_subscribe_{{restaurant.menu.split('| ').index(item)}}" value="Subscribe" class="w3-button w3-blue w3-round-large" />
-						{% endif %}
-						-->
-					</footer>
-				</div>
-			{% endif %}
-		{% endfor %}
-			<div class="w3-container w3-border w3-bottombar">
-				<label id="label_total_price" class="w3-xlarge">Rs. 0</label>
-				<input type="text" id="text_total_price" name="text_total_price" value="0" hidden required/>
-				<br>
-				<br>
-				<input id="buy" type="button" name="button_order" value="Buy" class="w3-button w3-hover-green w3-red w3-round w3-large w3-margin-left w3-margin-bottom w3-center" 
-				onclick="
-				var total_price = parseInt(document.getElementById('text_total_price').value);
-				if (total_price > 0)
-				{
-					document.getElementById('order_form').submit(); 
-				}" />
+					{% endif %}
+				{% endfor %}
 			</div>
+		{% endfor %}
+		<div class="w3-container w3-padding-large w3-bottombar" style="text-align: center; display: flex; align-items: center; justify-content: center;">
+			<label id="label_total_price" class="w3-xlarge w3-margin-right">Rs. 0</label>
+			<input type="text" id="text_total_price" name="text_total_price" value="0" hidden required/>
+			<input type="button" name="button_order" value="Buy" class="w3-button w3-xlarge w3-hover-green w3-red w3-round w3-large w3-margin-left" 
+			onclick="
+			var total_price = parseInt(document.getElementById('text_total_price').value);
+			if (total_price > 0)
+			{
+				document.getElementById('order_form').submit(); 
+			}" />
+		</div>
 		</form>
 	</div>
 	

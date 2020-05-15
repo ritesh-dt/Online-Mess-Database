@@ -58,17 +58,49 @@
 				</div>
 			<h3>Others items available</h3>
 			{% for i in range(15) %}
-				<div class="w3-row-padding w3-margin-top">
-					<div class="w3-col">
-						<label>Item {{i+1}}: </label>
+				<div class="w3-border w3-margin-top">
+					<div class="w3-container w3-padding-small w3-large w3-blue">
+							<label>Item {{i+1}}: </label>
 					</div>
-					<div class="w3-col l4">
-						<input type="text" class="w3-input" name="text_menu_name_{{i}}" placeholder="Name" value="{{ menu[i][0] }}" />
+					<div class="w3-container w3-padding">
+						<div class="w3-row-padding w3-large">
+							<div class="w3-col l6">
+								<input type="text" class="w3-input" name="text_menu_name_{{i}}" placeholder="Name" value="{{ menu[i][0] }}" />
+							</div>
+							<div class="w3-col l2">
+								<input type="text" class="w3-input " name="text_menu_price_{{i}}" size="10%"placeholder="Price" value="{{ menu[i][1] }}" />
+							</div>
+						</div>
+						<div class="w3-row-padding w3-margin-top">
+							<div class="w3-col l4">
+								<label>Category: </label>
+								<select class="w3-select" name="dropdown_categories_{{i}}">
+									{% for category in ["Beverages", "Ice cream", "Roti and Paratha", "Snacks", "Soups", "Other"]%}
+										<option value="{{category}}" 
+										{% if menu[i][3] == category %}
+											selected
+										{% endif %} >{{category}}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+						<div class="w3-row-padding w3-margin-top">
+							<div class="w3-col l4">
+								<label for="checkbox_menu_subscribe_{{i}}" >Monthly subscription: </label>
+								<input class="w3-check" type="checkbox" name="checkbox_menu_subscribe_{{i}}" id="checkbox_menu_subscribe_{{i}}" 
+								{% if menu[i][2] == '1' %}
+									checked
+								{% endif %}/>
+							</div>
+							<div class="w3-col l4">
+								<label for="radio_search_display_{{i}}">Display in search: </label>
+								<input type="radio" class="w3-radio" name="radio_search_display" value="radio_search_display_{{i}}" id="radio_search_display_{{i}}" 
+								{% if menu[i][4] == '1' %}
+									checked
+								{% endif %} />
+							</div>
+						</div>
 					</div>
-					<div class="w3-col l4">
-						<input type="text" class="w3-input " name="text_menu_price_{{i}}" size="10%"placeholder="Price" value="{{ menu[i][1] }}" />
-					</div>
-					
 				</div>
 			{% endfor %}
 			<div class="w3-container w3-margin-top">

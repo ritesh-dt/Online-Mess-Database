@@ -2,7 +2,7 @@ import os
 import bcrypt
 from datetime import date, datetime, timedelta
 import random
-from string import ascii_lowercase, digits
+from string import ascii_lowercase, ascii_uppercase, digits
 
 from flask import Flask
 from flask import render_template, redirect, url_for, request
@@ -17,6 +17,7 @@ app.secret_key = "Hello"
 
 IMAGE_EXTENSIONS = ["png", "jpg", "jpeg", "bmp"]
 SERVER_URL = "http://127.0.0.1:5000/"
+ADMIN_EMAIL = "10@10.com"
 
 # Database Section
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.sqlite3"
@@ -115,7 +116,7 @@ def home():
 	# db.drop_all()
 	# db.session.commit()
 	if "user" in session:
-		loggedIn = [session["username"], session["account_type"]]
+		loggedIn = [session["username"], session["account_type"], session["user"]]
 	else:
 		loggedIn = None
 	return render_template("home.html", logged_in=loggedIn)
@@ -128,9 +129,10 @@ def search():
 		if text_query != None:
 			#query_result = RestaurantsDB.query.filter(RestaurantsDB.name.like(f"%{text_query_name}%")).all()
 			text_query_list = text_query.split()
-			query_result = RestaurantsDB.query.filter(RestaurantsDB.name.contains(text_query)).all()
+			query_result = RestaurantsDB.query.filter(RestaurantsDB.name.contains(text_query), RestaurantsDB.rating.isnot(None)).all()
 			for restaurant in RestaurantsDB.query.all():
-				if restaurant in query_result:
+				print(restaurant.rating)
+				if restaurant in query_result or restaurant.rating == None:
 					continue
 				for text_query_item in text_query_list:
 					if restaurant in query_result:
@@ -151,61 +153,73 @@ def search():
 
 		#query_result = RestaurantsDB.query.filter(RestaurantsDB.name.in_(text_query.split())).all()
 	if "user" in session:
-		loggedIn = [session["username"], session["account_type"]]
+		loggedIn = [session["username"], session["account_type"], session["user"]]
 	else:
 		loggedIn = None
 	return render_template("search.html", logged_in=loggedIn, query_result=query_result, text_query=text_query)
 
-@app.route("/login", methods=["GET", 'POST'])
-def login():
+@app.route("/login/<next>/<id>", methods=["GET", 'POST'])
+@app.route("/login/<next>", methods=["GET", 'POST'])
+def login(next, id=None):
+	if request.full_path.replace("/login", ""):
+		next = request.full_path.replace("/login", "")
+	else:
+		next = "/home"
 	if request.method == "POST":
 		text_email = request.form["text_email"]
 		text_password = request.form["text_password"]
 		if not check_details(text_email, text_password):
 			flash("Please fill all the details", "error")
-			return render_template("home.html", logged_in=None)
+			return redirect(next or url_for("home"))
 
 		currentUser = UsersDB.query.filter_by(email=text_email).first()
 		if currentUser:
 			if not bcrypt.checkpw(text_password.encode(), currentUser.password):
 				flash("Incorrect password or email!!", "error")
-				return render_template("home.html", logged_in=None, pop_up="login") 
+				return redirect(next or url_for("home")) 
 		else:
 			flash("No such user, consider signing up", "error")
-			return render_template("home.html", logged_in=None, pop_up="login")
+			return redirect(next or url_for("home"))
 			
 		currentUser = UsersDB.query.filter_by(email=text_email).first()
 		session["user"] = currentUser.email
 		session["username"] = f"{currentUser.first_name} {currentUser.last_name}"
 		session["account_type"] = currentUser.account_type
 		session.permanent = True
-		loggedIn = [session["username"], session["account_type"]]
+		loggedIn = [session["username"], session["account_type"], session["user"]]
 
 #	if "user" in session:
-	return redirect(url_for("home"))
+	return redirect(next or url_for("home"))
 #	else:
 #		return render_template("home.html", logged_in=loggedIn, pop_up=None)
 
-@app.route("/signup", methods=["GET", "POST"])
-def signup():
+@app.route("/signup/<next>/<id>", methods=["GET", 'POST'])
+@app.route("/signup/<next>", methods=["GET", 'POST'])
+def signup(next, id=None):
+	if request.full_path.replace("/signup", ""):
+		next = request.full_path.replace("/signup", "")
+	else:
+		next = "/home"
+	
 	if request.method == "POST":
 		text_first_name = request.form["text_first_name"]
 		text_last_name = request.form["text_last_name"]
 		text_email = request.form["text_email"]
 		text_password = request.form["text_password"]
-		# flash("".join([*request.form]), "error")
 		radio_account_type = request.form["radio_account_type"]
+
 		if not check_details(text_first_name, text_last_name, text_email, text_password, radio_account_type):
 			flash("Please fill all the details", "error")
-			return render_template("home.html", logged_in=None, pop_up="signup")
+			return redirect(next or url_for("home"))
+
 		if not text_password == request.form["text_repeat_password"]:
 			flash("Passwords do not match", "error")
-			return render_template("home.html", logged_in=None, pop_up="signup")
+			return redirect(next or url_for("home"))
 		
 		currentUser = UsersDB.query.filter_by(email=text_email).first()
 		if currentUser:
 			flash("Email already registered", "error")
-			return render_template("home.html", logged_in=None, pop_up=None)
+			return redirect(next or url_for("home"))
 
 		db.session.add(UsersDB(first_name=text_first_name, last_name=text_last_name, email=text_email, password=bcrypt.hashpw(text_password.encode(), bcrypt.gensalt()), account_type=radio_account_type, verified=0b0, restaurant=-1))
 		db.session.commit()
@@ -215,10 +229,10 @@ def signup():
 		session["username"] = f"{currentUser.first_name} {currentUser.last_name}"
 		session["account_type"] = currentUser.account_type
 		session.permanent = True
-		loggedIn = [session["username"], session["account_type"]]
+		loggedIn = [session["username"], session["account_type"], session["user"]]
 
 #	if "user" in session:
-	return redirect(url_for("home"))
+	return redirect(next or url_for("home"))
 #	else:
 #		return render_template("home.html", logged_in=[session["username"], session["account_type"]], pop_up=None)
 
@@ -263,7 +277,7 @@ def forgot():
 	if "user" in session:
 		text_email = session["user"]
 		label_text = "Change your password"
-		loggedIn = [session["username"], session["account_type"]]
+		loggedIn = [session["username"], session["account_type"], session["user"]]
 	else:
 		loggedIn = None
 
@@ -303,7 +317,7 @@ def send_image(filename):
 @app.route("/restaurant/<restaurant_id>", methods=["POST", "GET"])
 def restaurant(restaurant_id):
 	if "user" in session:
-		loggedIn = [session["username"], session["account_type"]]
+		loggedIn = [session["username"], session["account_type"], session["user"]]
 	else:
 		loggedIn = None
 	currentRest = RestaurantsDB.query.filter_by(id=restaurant_id).first()
@@ -312,21 +326,21 @@ def restaurant(restaurant_id):
 			print(request.form)
 			if "user" in session:
 				currentUser = UsersDB.query.filter_by(email=session["user"]).first()
-				coupon_code =  "".join([random.choice(ascii_lowercase + digits) for letter in range(8)])
+				coupon_code =  "".join([random.choice(ascii_uppercase + digits) for letter in range(6)])
 				currentBill = BillsDB(creator=currentRest.id, subscriber=currentUser.id, timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"), total_price=float(request.form["text_total_price"]), active=0b1, coupon=coupon_code)
 				db.session.add(currentBill)
 				db.session.commit()
 
-				print(currentBill.id)
-
-				for key in request.form:
+				print(currentBill.id, request.form)
+				menu = []
+				for item in currentRest.menu.split("| "):
+					menu.append(item.split("~"))
+				for key in request.form.keys():
 					if key != "text_total_price" and int(request.form[key]) > 0:
-						menu = []
-						for item in currentRest.menu.split("| "):
-							menu.append(item.split("~"))
 						item_index = int(key.split("_")[-1])
 						item_name, item_price = menu[item_index][:2] 
 						item_count = int(request.form[key])
+						print(item_name, item_count)
 
 						currentOrder = OrdersDB(bill_id=currentBill.id, item=item_name, quantity=item_count, price=item_count*float(item_price))
 						db.session.add(currentOrder)
@@ -363,9 +377,19 @@ def restaurant(restaurant_id):
 
 			else:
 				flash("Please login first!!", "error")
-				return render_template("restaurant.html", restaurant=currentRest, logged_in=loggedIn)
-		else:
-			return render_template("restaurant.html", restaurant=currentRest, logged_in=loggedIn)
+			return redirect(url_for("restaurant", restaurant_id=restaurant_id))
+		menu = []
+		for index, item in enumerate(currentRest.menu.split("| "), 0):
+			menu.append(item.split("~")+[index])
+		print(menu)
+		categorized_menu = {}
+		for item in menu:
+			if item[-2] not in categorized_menu:
+				categorized_menu[item[-2]] = []
+			categorized_menu[item[-2]].append(item)
+		return render_template("restaurant.html", restaurant=currentRest, logged_in=loggedIn, categorized_menu=categorized_menu)
+	else:
+		return render_template("search.html", logged_in=loggedIn)
 
 @app.route("/user/subscriptions", methods=["POST", "GET"])
 def subscriptions():
@@ -373,7 +397,7 @@ def subscriptions():
 	if not "user" in session:
 		return redirect(url_for("logout"))
 	else:
-		loggedIn = [session["username"], session["account_type"]]
+		loggedIn = [session["username"], session["account_type"], session["user"]]
 	currentUser = UsersDB.query.filter_by(email=session["user"]).first()
 
 	if not currentUser:
@@ -419,7 +443,7 @@ def user_restaurant():
 	if not "user" in session:
 		return redirect(url_for("logout"))
 	else:
-		loggedIn = [session["username"], session["account_type"]]
+		loggedIn = [session["username"], session["account_type"], session["user"]]
 	currentUser = UsersDB.query.filter_by(email=session["user"]).first()
 
 	if not currentUser:
@@ -430,11 +454,11 @@ def user_restaurant():
 		return redirect(url_for("subscriptions", logged_in=[session["username"], session["account_type"]]))
 	currentRest = RestaurantsDB.query.filter_by(owner=currentUser.id).first()
 	if not currentRest:
-		currentRest = {key: "" for key in ["name", "address", "phone",  "opening_timing","closing_timing", "tags"]}
-		list_menu = [("", "") for i in range(15)]
+		currentRest = {key: "" for key in ["name", "address", "phone",  "opening_timing","closing_timing", "tags", "rating"]}
+		list_menu = [("", "", "Other", 0) for i in range(15)]
+		list_menu[0] = ("", "", "Other", 1)
 	else:
 		list_menu = [tuple(item.split("~")) for item in currentRest.menu.split("| ")]
-
 	if request.method == "POST":
 		print(request.form)
 		if "file_image" in request.files:
@@ -465,7 +489,6 @@ def user_restaurant():
 				checkbox_vegetarian = 0b0
 			text_address = request.form["text_address"]
 			text_phone = request.form["text_phone"]
-			
 			text_timing_opening = request.form["text_timing_opening"]
 			text_timing_closing = request.form["text_timing_closing"]
 			text_tags = request.form["text_tags"]
@@ -475,7 +498,12 @@ def user_restaurant():
 				text_tags += ", vegan"
 			text_menu_names = [request.form[f"text_menu_name_{i}"] for i in range(15) if f"text_menu_name_{i}" in request.form]
 			text_menu_prices = [request.form[f"text_menu_price_{i}"] for i in range(15) if f"text_menu_price_{i}" in request.form]
-			average_cost = sum(list(map(int, [item for item in text_menu_prices if item != ""])))/len([item for item in text_menu_names if item != ""])
+			dropdown_categories = [request.form[f"dropdown_categories_{i}"] for i in range(15) if f"dropdown_categories_{i}" in request.form]
+			radio_search_display = int(request.form["radio_search_display"].split("_")[-1])
+
+			search_display = [0 for _ in range(15)]
+			search_display[radio_search_display] = 1
+			#average_cost = sum(list(map(int, [item for item in text_menu_prices if item != ""])))/len([item for item in text_menu_names if item != ""])
 
 			text_menu_subscribe = [0 for _ in range(15)] 
 			for key in filter(lambda x: "checkbox_menu_subscribe_" in x, request.form.keys()):
@@ -485,24 +513,22 @@ def user_restaurant():
 				flash("Please fill all the restaurant details", "error")
 			else:
 
-				text_menu = "| ".join([f"{name}~{price}~{subscribe}" for name, price, subscribe in zip(text_menu_names, text_menu_prices, text_menu_subscribe)])
+				text_menu = "| ".join([f"{name}~{price}~{subscribe}~{category}~{display}" for name, price, subscribe, category, display in zip(text_menu_names, text_menu_prices, text_menu_subscribe, dropdown_categories, search_display)])
 
 				if not RestaurantsDB.query.filter_by(owner=currentUser.id).first():
 					flash("Added your restaurant successfully!!!", "success")
-					db.session.add(RestaurantsDB(name=text_name, address=text_address, phone=text_phone,  opening_timing=text_timing_opening, closing_timing=text_timing_closing, tags=text_tags, menu=text_menu, owner=currentUser.id,  vegetarian=checkbox_vegetarian, average_cost=average_cost, main_menu_name = main_menu_name, main_menu_price = main_menu_price))
+					db.session.add(RestaurantsDB(name=text_name, address=text_address, phone=text_phone,  opening_timing=text_timing_opening, closing_timing=text_timing_closing, tags=text_tags, menu=text_menu, owner=currentUser.id,  vegetarian=checkbox_vegetarian, average_cost=average_cost, main_menu_name = main_menu_name, main_menu_price = main_menu_price, rating=None))
 					currentRest = RestaurantsDB.query.filter_by(owner=currentUser.id).first()
 				else:
 					flash("Updated your restaurant details successfully!!!", "success")
 					currentRest.name = text_name
 					currentRest.address=text_address
 					currentRest.phone=text_phone
-			
 					currentRest.opening_timing=text_timing_opening
 					currentRest.closing_timing=text_timing_closing
 					currentRest.tags=text_tags
 					currentRest.menu=text_menu
 					currentRest.owner=currentUser.id
-					
 					currentRest.vegetarian = checkbox_vegetarian
 					currentRest.average_cost = average_cost
 					currentRest.main_menu_name = main_menu_name
@@ -510,14 +536,15 @@ def user_restaurant():
 				db.session.commit()
 			
 				list_menu = [tuple(item.split("~")) for item in currentRest.menu.split("| ")]
-
+		return redirect(url_for("user_restaurant"))
+	print("MENU", list_menu)
 	return render_template("user_restaurant.html", logged_in=loggedIn, account_type=session["account_type"], restaurant=currentRest, menu=list_menu)
 
 @app.route("/user/orders", methods=["POST", "GET"])
 def orders():
 	order_list = []
 	if "user" in session:
-		loggedIn = [session["username"], session["account_type"]]
+		loggedIn = [session["username"], session["account_type"], session["user"]]
 		currentUser = UsersDB.query.filter_by(email=session["user"]).first()
 		if not currentUser:
 			flash("Please login again!!", "error")
@@ -591,10 +618,37 @@ def orders():
 @app.route("/learn", methods=["GET"])
 def learn():
 	if "user" in session:
-		loggedIn = [session["username"], session["account_type"]]
+		loggedIn = [session["username"], session["account_type"], session["user"]]
 	else:
 		loggedIn = None
 	return render_template("learn.html", logged_in=loggedIn)
+
+@app.route("/admin", methods=["POST", "GET"])
+def admin():
+	if "user" in session:
+		loggedIn = [session["username"], session["account_type"], session["user"]]
+		if not session["user"] == ADMIN_EMAIL:
+			flash("Permission denied", "error")
+			return redirect(url_for("home", logged_in=loggedIn))
+		if request.method == "POST":
+			for key in request.form:
+				if "text_hygiene_rating_" in key:
+					restaurant_id = int(key.split("_")[-1])
+					text_rating = int(request.form[key])
+					currentRest = RestaurantsDB.query.filter_by(id=restaurant_id).first()
+					if currentRest:
+						currentRest.rating = text_rating
+						db.session.commit()
+		pending_list = RestaurantsDB.query.filter_by(rating=None).all()
+		approved_list = RestaurantsDB.query.filter(RestaurantsDB.rating.isnot(None)).all()
+		if request.method == "POST":
+			print("REDIRECTING....")
+			return redirect(url_for("admin"))
+		return render_template("admin.html", logged_in=loggedIn, pending_list=pending_list, approved_list=approved_list)
+	else:
+		loggedIn = None
+		flash("Please login first!", "error")
+		return redirect(url_for("home", logged_in=loggedIn))
 
 if __name__ == "__main__":
 	app.run(debug=True)
