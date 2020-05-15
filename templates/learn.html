@@ -1,40 +1,55 @@
 {% extends "base.html" %}
 {% block title %}Learn more{% endblock %}
 {% block content %}
-	<div class="w3-panel w3-acp-light-green w3-leftbar w3-rightbar w3-border-acp-mid-green w3-center w3-padding w3-margin-bottom">
-		<div class="w3-xxxlarge w3-margin-bottom">Made by students, for students</div>
-		<div class="w3-large w3-margin-left">We know the difficulty of managing monthly expenses against the over-priced college activities and restaurant meals</div>
-	</div>
-	<div class="w3-container">
-		<div class="w3-panel w3-sand w3-border-acp-grey w3-topbar w3-bottombar w3-center w3-round-large">
-			<div class="w3-xxlarge w3-margin-top">Our Aim</div>
-				<p>Help students find affordable and hygenic meals to not only students but also to people who may be new to their locality</p>
-		</div>
-		<div class="w3-card-2 w3-container w3-round-large">
-			<div class="w3-xlarge w3-margin-top w3-center">Search, Select and Subscribe</div>
-			<ol class="w3-ul w3-center">
-				<li class="w3-large">
-					<img src="{{ url_for('static', filename='img/search.png') }}" class="w3-round w3-right-align" width="50%" alt="Image not found"/>
-				</li>
-				<li class="w3-large">
-					<img src="{{ url_for('static', filename='img/menu.png') }}" class="w3-round w3-right-align" width="45%" alt="Image not found"/>
-				</li>
-				<li class="w3-large">
-					<img src="{{ url_for('static', filename='img/subscribe.png') }}" class="w3-round w3-right-align" width="30%" alt="Image not found"/>
-				</li>
-			</ol>
-		</div>
-		<div class="w3-panel w3-padding w3-acp-dark-green w3-border-acp-mid-green w3-leftbar w3-large">
-			Built using <a href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a> and designed using <a href="https://www.w3schools.com/w3css/">W3CSS</a>
-			<br/>
-			Developed by:
-			<div class="w3-container">
-				Ritesh Thakur - <a href="mailto:riteshdthakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
-				<a href="https://twitter.com/ritesh_dt" target="_blank"><i class="fa fa-twitter w3-xlarge"></i></a>
-				<br/>
-				Amey Thakur - <a href="mailto:amey36thakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
-				<a href="https://twitter.com/AmeyThakur9" target="_blank"><i class="fa fa-twitter w3-xlarge"></i></a>
-			</div>
-		</div>
-	</div>
+<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,700;0,900;1,200;1,300&display=swap" rel="stylesheet"> 
+	<div class="w3-panel w3-leftbar w3-rightbar w3-border-acp-mid-green w3-center w3-padding w3-margin-bottom">
+		<div style="font-family: 'Titillium Web', sans-serif" class="w3-xxxlarge w3-margin-bottom">Online-Mess</div>
+		<br>
+		<strong style="font-family: 'Titillium Web', sans-serif; font-size: 40px">An initiave By the students for the students</strong>
+		
+		<div style="font-family: 'Titillium Web', sans-serif; color: grey; margin-left: 200px; margin-right: 200px">Ever thought about getting free from that nausiating atmosphere of your mess ? Ever found it unfair when you pay for the meal of the entire month just to get few percents of discount ? This is where concept of Online-Mess arises !<br> This is a platform have listed number of messes that too completely verified on the basis of the quality of food they serve, Hygiene level at the cooking site and affordability especially in perspective of students.</div>
+		<br>
+		<br>
+		<br>
+		<br>
+		<strong style="font-family: 'Titillium Web', sans-serif; font-size: 40px">Pay only for one at a time</strong>
+		<div style="font-family: 'Titillium Web', sans-serif; color: grey; margin-left: 200px; margin-right: 200px">Unlike messes, We are charging you only for the meal that you have chosen at a particular time. So Henceforth, You need not have to pay for the month's meal to get it at a affordable price.</div>
+
+		<br>
+		<br>
+		<br>
+		<br>
+
+		<strong style="font-family: 'Titillium Web', sans-serif; font-size: 40px">Don't compromise for hygiene henceforth</strong>
+		<div style="font-family: 'Titillium Web', sans-serif; color: grey; margin-left: 200px; margin-right: 200px">We guarantee for the cleanlinees and hygiene in which your meal is cooked. Each and every mess listed on this platform have been verified in terms of the hygiene level at the cooking site.</div>
+
+		<br>
+		<br>
+		<br>
+		<br>
+
+		<strong style="font-family: 'Titillium Web', sans-serif; font-size: 40px">Earn great discounts</strong>
+		<div style="font-family: 'Titillium Web', sans-serif; color: grey; margin-left: 200px; margin-right: 200px">We have made sure that users of this platform will get the items at the price at which that particular mess serves it to their daily customers. We are also giving additional discounts. You can even verify this fact by visiting particular mess itself.</div>
+
+		<br>
+		<br>
+		<br>
+		<br>
+
+		<strong style="font-family: 'Titillium Web', sans-serif; font-size: 40px">Try variety of food</strong>
+		<div style="font-family: 'Titillium Web', sans-serif; color: grey; margin-left: 200px; margin-right: 200px">We know that one gets bored of the same taste everyday. So this platform have listed number of messes that can be accessed at any time.</div>
+
+		<br>
+		<br>
+		<br>
+		<br>
+
+		<strong style="font-family: 'Titillium Web', sans-serif; font-size: 40px">Resgiter your mess here</strong>
+		<div style="font-family: 'Titillium Web', sans-serif; color: grey; margin-left: 200px; margin-right: 200px">We also care for the messes ! We have created an interface on this website for mess owners where they can register their mess on this platform. After that particular mess will be assigned hygiene rating after the verification. This is how messes are listed on this platform !</div>
+
+
+		<h1>That's all guys ! Lets start your journey by exploring the messes in your city.</h1>
+		
+	
+	
 {% endblock %}
