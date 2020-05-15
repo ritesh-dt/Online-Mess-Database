@@ -31,11 +31,11 @@
 			</p>
 			<p>
 				<label>Open from: </label>
-				<input type="time" class="w3-input" name="text_timing_opening" value="{{ restaurant.opening_timing }}" />
+				<input type="time" class="w3-input" name="text_timing_opening" value="{{ restaurant.timing }}" />
 			</p>
 			<p>
 				<label>Open till </label>
-				<input type="time" class="w3-input" name="text_timing_closing" value="{{ restaurant.closing_timing }}" />
+				<input type="time" class="w3-input" name="text_timing_closing" value="{{ restaurant.timing }}" />
 			</p>
 			
 			<p>
@@ -43,23 +43,21 @@
 				<input type="text" class="w3-input" name="text_tags" value="{{ restaurant.tags }}" />
 			</p>
 			<h2>Menu:</h2>
-			<h3>Menu</h3>
-			<div class="w3-border w3-margin-top">
-				<div class="w3-container w3-padding-small w3-large w3-blue">
-						<label>Item for monthly subscription:</label>
-				</div>
-				<div class="w3-container w3-padding">
-					<div class="w3-row-padding w3-large">
-						<div class="w3-col l6">
-							<input type="text" class="w3-input" name="main_menu_name" placeholder="Name" value="{{ restaurant.main_menu_name }}" />
-						</div>
-						<div class="w3-col l2">
-							<input type="text" class="w3-input " name="main_menu_price" size="10%" placeholder="Price" value="{{ restaurant.main_menu_price }}" />
-						</div>
+			<h3>Menu available for monthly subscriptions</h3>
+			<div class="w3-row-padding w3-margin-top">
+					<div class="w3-col">
+						<label>Item : </label>
 					</div>
+					<div class="w3-col l4">
+						<input type="text" class="w3-input" name="main_menu_name" placeholder="Name" value="" />
+					</div>
+					<div class="w3-col l4">
+						<input type="text" class="w3-input " name="main_menu_price" size="10%"placeholder="Price" value="" />
+					</div>
+					
 				</div>
-			</div>
-			{% for i in range(10) %}
+			<h3>Others items available</h3>
+			{% for i in range(15) %}
 				<div class="w3-border w3-margin-top">
 					<div class="w3-container w3-padding-small w3-large w3-blue">
 							<label>Item {{i+1}}: </label>
@@ -88,11 +86,11 @@
 						</div>
 						<div class="w3-row-padding w3-margin-top">
 							<div class="w3-col l4">
-								<label for="checkbox_menu_subscribe_{{i}}" hidden>Monthly subscription: </label>
+								<label for="checkbox_menu_subscribe_{{i}}" >Monthly subscription: </label>
 								<input class="w3-check" type="checkbox" name="checkbox_menu_subscribe_{{i}}" id="checkbox_menu_subscribe_{{i}}" 
 								{% if menu[i][2] == '1' %}
 									checked
-								{% endif %} hidden/>
+								{% endif %}/>
 							</div>
 							<div class="w3-col l4">
 								<label for="radio_search_display_{{i}}">Display in search: </label>
