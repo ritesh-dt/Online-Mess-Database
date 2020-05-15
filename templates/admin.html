@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Administration{% endblock %}
+{% block content %}
+	<div class="w3-container">
+		<div class="w3-xxlarge w3-margin">Manage registered businesses</div>
+		<form method="post" class="w3-container" id="rating-form">
+		<div class="w3-text-red w3-light-grey w3-center w3-padding">Pending Approvals</div>
+		{% for restaurant in pending_list %}
+			<div class="w3-row w3-border w3-padding w3-third">
+				<div class="w3-xlarge">{{ restaurant.name }}</div>
+				<div class="w3-large">{{ restaurant.address }}</div>
+				<div class="w3-half w3-right w3-right-align">
+					<label>Hygiene Rating</label>
+					<br/>
+					{% for star in range(1, 6) %}
+							<button type="submit" class="fa 
+							{% if restaurant.rating >= star %}
+								fa-star
+							{% else %}
+								fa-star-o
+							{% endif %}
+							w3-text-green w3-button w3-padding-small" name="text_hygiene_rating_{{restaurant.id}}" onclick="document.getElementById('rating-form').submit()" value="{{star}}"></button>
+					{% endfor %}
+				</div>
+			</div>
+		{% endfor %}
+		{% if not pending_list %}
+			<div class="w3-center w3-margin">No pending approvals currently...</div>
+		{% endif %}
+		<div class="w3-text-red w3-light-grey w3-center w3-padding w3-margin-bottom w3-margin-top">Edit Approvals</div>
+		{% for restaurant in approved_list %}
+			<div class="w3-row w3-border w3-margin-right w3-margin-bottom w3-padding w3-third">
+				<div class="w3-xlarge">{{ restaurant.name }}</div>
+				<div class="w3-large">{{ restaurant.address }}</div>
+				<div class="w3-half w3-right w3-right-align">
+					<label>Hygiene Rating</label>
+					<br/>
+					{% for star in range(1, 6) %}
+							<button type="submit" class="fa 
+							{% if restaurant.rating >= star %}
+								fa-star
+							{% else %}
+								fa-star-o
+							{% endif %}
+							w3-text-green w3-button w3-padding-small" name="text_hygiene_rating_{{restaurant.id}}" onclick="document.getElementById('rating-form').submit()" value="{{star}}"></button>
+					{% endfor %}
+				</div>
+			</div>
+		{% endfor %}
+		</form>
+	</div>
+{% endblock %}

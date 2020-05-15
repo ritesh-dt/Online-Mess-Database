@@ -12,6 +12,7 @@
 							{% endif %}
 		</p>
 	</form>
+	<button class="w3-bar-item w3-button w3-right w3-hover-green w3-red" onclick="document.getElementById('next_modal').style.display='block'">What's Next?</a>
 	{% for restaurant in subscribed_list %}
 		<div class="w3-card w3-round-large w3-third w3-margin w3-hover-shadow">
 			<div class="w3-container">
@@ -26,13 +27,55 @@
 						{{order[1]}} {{order[0]}} 
 					</div>
 				{% endfor %}
+				<h3 class="w3-text-green">Rs. {{restaurant[2]}}</h3>
 			</div>
-			<footer class="w3-container w3-margin-bottom">
-				
-					<p>Coupen code - {{restaurant[4]}}</p>
-				<div class="w3-text-red">Valid till {{ restaurant[3] }}</div>
+			<footer class="w3-container">
+				<div class="w3-text-blue w3-light-grey w3-round w3-padding w3-right-align w3-xlarge">Coupon code - {{restaurant[4]}}</div>
+				<div class="w3-text-red w3-small w3-margin-top w3-margin-bottom">Valid till {{ restaurant[3] }}</div>
 			</footer>
 		</div>
 	{% endfor %}
+</div>
+
+<div id="next_modal" class="w3-card w3-display-container w3-border w3-half w3-light-grey w3-display-middle" style="display: none">
+	<header class="w3-container">
+		<span class="w3-display-topright w3-button" onclick="document.getElementById('next_modal').style.display='none'">&times;</span>
+		<div class="w3-large w3-margin-top">Thanks for viewing our project!!</div>
+	</header>
+	<div class="w3-container w3-padding w3-margin-bottom">
+		<div class="w3-padding">Other features to explore:<br/></div>
+			<ul class="w3-ul w3-margin-left">
+				<li>Create a restaurant/mess owner account
+				<li>Add your own restaurant to the demo
+				<li>Use our coupon code system to verify customer orders
+			</ul>
+		<div class="w3-padding w3-acp-dark-green w3-border-acp-mid-green w3-leftbar w3-margin-top">
+			Built using <a href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a> and designed using <a href="https://www.w3schools.com/w3css/">W3CSS</a>
+			<br/>
+			Developed by:
+			<div class="w3-container">
+				<div class="w3-row">
+				<div class="w3-third">Ritesh Thakur</div>
+				<div class="w3-third">Amey Thakur</div>
+				</div>
+				<div class="w3-row">
+					<div class="w3-third">
+						<a href="mailto:riteshdthakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
+						<a href="https://twitter.com/ritesh_dt" target="_blank"><i class="fa fa-twitter w3-xlarge"></i></a>
+						<a href="https://github.com/ritesh-dt" target="_blank"><i class="fa fa-github w3-xlarge"></i></a>
+					</div>
+					<div class="w3-third">
+						<a href="mailto:amey36thakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
+						<a href="https://twitter.com/AmeyThakur9" target="_blank"><i class="fa fa-twitter w3-xlarge"></i></a>
+						<a href="https://github.com/ameythakur-del" target="_blank"><i class="fa fa-github w3-xlarge"></i></a>
+					</div>
+				</div>
+			</div>
+				
+		</div>
+		<div class="w3-padding w3-pale-yellow w3-border-yellow w3-leftbar w3-margin-top">
+			Special thanks to Rishikesh, Abhay and Vishal who helped us along the way!!
+		</div>
+	</div>
 </div>
 {% endblock %}

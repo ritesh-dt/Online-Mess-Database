@@ -14,6 +14,9 @@
 	<p class="w3-bar-item w3-large" style="margin: 0"><b>A Way To Find A Mess...</b></p>
 	<a href="/home" class="w3-bar-item w3-button">Home</a>
 	<a href="/search?text_query_name=" class="w3-bar-item w3-button">Explore</a>
+	{% if logged_in[2] == "10@10.com" %}
+		<a href="/admin" class="w3-bar-item w3-button">Administration</a>
+	{% endif %}
 	{% if logged_in %}
 		<div class="w3-dropdown-click w3-right w3-margin-right">
 			<button class="w3-button" onclick="displayUserSettings()">
@@ -42,7 +45,7 @@
 	{% with messages = get_flashed_messages(with_categories=True) %}
 		{% if messages %}
 			{% for category, msg in messages %}
-				<div class="w3-panel w3-display-container 
+				<div class="w3-container w3-display-container 
 					{% if category == 'error' %}
 						w3-red
 					{% elif category == 'success' %}
@@ -64,8 +67,7 @@
 			<span class="w3-display-topright w3-button" onclick="document.getElementById('login_modal').style.display='none'">&times;</span>
 			<h4>Login to your account</h4>
 		</header>
-
-		<form action="/login" method="post">
+		<form action="{{ '/login' + request.full_path }}" method="post">
 			<div class="w3-container w3-padding-32">
 				<label>Email:</label>
 				<input type="text" class="w3-input w3-border" name="text_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
@@ -85,7 +87,7 @@
 			<h4>Register</h4>
 		</header>
 
-		<form action="/signup" method="post">
+		<form action="{{ '/signup' + request.full_path }}" method="post">
 			<div class="w3-container ">
 				<div class="w3-row-padding">
 					<div class="w3-rest w3-margin-left">
@@ -137,32 +139,7 @@
 			x.className = x.className.replace(" w3-show", "");
 		}
 	}
-	function openForm() {
-  document.getElementById("myForm").style.display = "block";
-}
-
-function closeForm() {
-  document.getElementById("myForm").style.display = "none";
-}
-
-var mybutton = document.getElementById("myBtn");
-
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    mybutton.style.display = "block";
-  } else {
-    mybutton.style.display = "none";
-  }
-}
-
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
-}</script>
+</script>
 {% endif %}
 </body>
 </html>
