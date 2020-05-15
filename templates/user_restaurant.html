@@ -29,23 +29,34 @@
 				<label>Phone: </label> 
 				<input type="tel" class="w3-input" name="text_phone" value="{{ restaurant.phone }}" pattern="+91[0-9]*10" />
 			</p>
-			<p>	
-				<label>Website: </label>
-				<input type="url" class="w3-input" name="text_website" value="{{ restaurant.website }}" />
+			<p>
+				<label>Open from: </label>
+				<input type="time" class="w3-input" name="text_timing_opening" value="{{ restaurant.timing }}" />
 			</p>
 			<p>
-				<label>Timing: </label>
-				<input type="time" class="w3-input" name="text_timing" value="{{ restaurant.timing }}" />
+				<label>Open till </label>
+				<input type="time" class="w3-input" name="text_timing_closing" value="{{ restaurant.timing }}" />
 			</p>
-			<p>
-				<label>Hygiene rating (0-5): </label>
-				<input type="text" class="w3-input" name="text_hygiene_rating" value="{{ restaurant.rating|int }}" pattern="[0-5]{1}"/>
-			</p>
+			
 			<p>
 				<label>Tags (kids-friendly, south indian, etc): </label>
 				<input type="text" class="w3-input" name="text_tags" value="{{ restaurant.tags }}" />
 			</p>
-			<h3>Menu:</h3>
+			<h2>Menu:</h2>
+			<h3>Menu available for monthly subscriptions</h3>
+			<div class="w3-row-padding w3-margin-top">
+					<div class="w3-col">
+						<label>Item : </label>
+					</div>
+					<div class="w3-col l4">
+						<input type="text" class="w3-input" name="main_menu_name" placeholder="Name" value="" />
+					</div>
+					<div class="w3-col l4">
+						<input type="text" class="w3-input " name="main_menu_price" size="10%"placeholder="Price" value="" />
+					</div>
+					
+				</div>
+			<h3>Others items available</h3>
 			{% for i in range(15) %}
 				<div class="w3-row-padding w3-margin-top">
 					<div class="w3-col">
@@ -57,13 +68,7 @@
 					<div class="w3-col l4">
 						<input type="text" class="w3-input " name="text_menu_price_{{i}}" size="10%"placeholder="Price" value="{{ menu[i][1] }}" />
 					</div>
-					<div class="w3-col l4">
-						<label>Monthly subscription: </label>
-						<input type="checkbox" name="checkbox_menu_subscribe_{{i}}" 
-						{% if menu[i][2] == '1' %}
-							checked
-						{% endif %}/>
-					</div>
+					
 				</div>
 			{% endfor %}
 			<div class="w3-container w3-margin-top">

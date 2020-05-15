@@ -18,6 +18,7 @@
 	<div class="w3-container">
 		<div class="w3-center w3-margin-top w3-xxlarge w3-text-blue w3-light-grey">Menu</div>
 		<form method="post" id='order_form'>
+
 		{% for item in restaurant.menu.split("| ") %}
 			{% if item.split("~")[0] and item.split("~")[1]%}
 				<div class="w3-card w3-round-large w3-quarter w3-margin w3-hover-shadow">
@@ -64,7 +65,9 @@
 			<div class="w3-container w3-border w3-bottombar">
 				<label id="label_total_price" class="w3-xlarge">Rs. 0</label>
 				<input type="text" id="text_total_price" name="text_total_price" value="0" hidden required/>
-				<input type="button" name="button_order" value="Buy" class="w3-button w3-hover-green w3-red w3-round w3-large w3-right w3-margin-bottom" 
+				<br>
+				<br>
+				<input id="buy" type="button" name="button_order" value="Buy" class="w3-button w3-hover-green w3-red w3-round w3-large w3-margin-left w3-margin-bottom w3-center" 
 				onclick="
 				var total_price = parseInt(document.getElementById('text_total_price').value);
 				if (total_price > 0)
@@ -74,12 +77,11 @@
 			</div>
 		</form>
 	</div>
-	<div class="w3-container">
-		<div class="w3-center w3-margin-top w3-xxlarge w3-text-blue w3-light-grey">Info</div>
-		<div class="w3-margin w3-xlarge w3-center">
+	
+		<div class="w3-xlarge w3-center w3-dark-grey w3-padding">
 			Address: {{restaurant.address}}<br/>
 			Phone: {{restaurant.phone}}<br/>
-			Timings: {{restaurant.timing}}<br/>
+			Timing: from {{restaurant.opening_timing}} to {{restaurant.closing_timing}}<br/>
 			Tags: {% for tag in restaurant.tags.split(", ") %}
 					<a href="/search?text_query_name={{tag}}" class=" w3-button w3-red w3-round-large w3-padding-small w3-medium">{{tag}}</a>
 				{% endfor %}
