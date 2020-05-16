@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block css %}
-	<link rel="stylesheet" href="http://static.sasongsmat.nu/fonts/vegetarian.css" />
 {% endblock %}
 {% block content %}
 	<form method="get">
@@ -22,7 +21,7 @@
 		<div class="w3-card w3-margin w3-round-large w3-hover-shadow w3-sand">
 			{% if restaurant.images %}
 				<div class="w3-left w3-hide-small w3-hide-medium">
-					<img src="{{url_for('send_image', filename=restaurant.images[0].image_name)}}" height="210px" class="w3-round-large" />
+					<img src="{{url_for('send_image', filename=restaurant.images[0].image_name)}}" height="232px" class="w3-round-large" />
 				</div>
 			{% endif %}
 			<div class="w3-container w3-rest">
