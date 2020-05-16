@@ -2,16 +2,17 @@
 {% block title %}Subscriptions{% endblock %}
 {% block content %}
 <div class="w3-container w3-margin w3-margin">
-	<form method="post">
+	<!--<form method="post">-->
 		<p>
 			Account Status: {% if verified %}
 								Verified
 							{% else %}
 								Not verified
-								<input type="submit" class="w3-button w3-round w3-blue w3-margin"name="button_verify" value="Send verification email"/>
+								<input type="button" class="w3-button w3-round w3-blue w3-margin"name="button_verify" value="Send verification email" disabled />
+								<span class="w3-text-red">(Heroku implementation pending)</span>
 							{% endif %}
 		</p>
-	</form>
+	<!--</form>-->
 	
 	{% for restaurant in subscribed_list %}
 	<div class="w3-third">
@@ -39,46 +40,48 @@
 	{% endfor %}
 
 </div>
-<button class="w3-bar-item w3-button w3-bottom w3-hover-green w3-yellow" onclick="document.getElementById('next_modal').style.display='block'">What's Next !</button>
+<button class="w3-bar-item w3-button w3-bottom w3-hover-green w3-yellow" onclick="open_modal('next_modal')">What's Next !</button>
 
-<div id="next_modal" class="w3-card w3-display-container w3-border w3-half w3-light-grey w3-display-middle w3-mobile" style="display: none">
-	<header class="w3-container">
-		<span class="w3-display-topright w3-button" onclick="document.getElementById('next_modal').style.display='none'">&times;</span>
-		<div class="w3-large w3-margin-top w3-center">What's Next !</div>
-	</header>
-	<div class="w3-container w3-padding w3-margin-bottom">
-		<div class="w3-large w3-margin-top w3-center">
-			This was just a demo website. We have not tied up with any of the messes registered on this website. But we are thinking of it. What do you think? Let us know about your experience with this website on our social media handles.
-		</div>
-		<div class="w3-padding w3-acp-dark-green w3-border-acp-mid-green w3-leftbar w3-rightbar w3-margin-top ">
-			
-			
-			Developed by:
-			<div class="w3-container">
-				<div class="w3-row">
-				<div class="w3-col l3">Ritesh Thakur</div>
-				<div class="w3-col l4">
-						<a href="https://twitter.com/ritesh_dt" target="_blank"><i class="fa fa-twitter w3-xlarge"></i></a>
-						<a href="https://www.linkedin.com/in/ritesh-dt" target="_blank"><i class="fa fa-linkedin w3-xlarge"></i></a>
-						<a href="mailto:riteshdthakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
-						<a href="https://github.com/ritesh-dt" target="_blank"><i class="fa fa-github w3-xlarge"></i></a>
-				</div>
-
-				<br>
-				<div class="w3-row">
-				<div>
-					<div class="w3-col l3"> Amey Thakur</div>
-					<div class="w3-col l3">
-						<a href="https://twitter.com/ameythakur9" target="_blank"><i class="fa fa-twitter w3-xlarge"></i></a>
-						<a href="https://www.linkedin.com/in/amey-thakur-54a030134" target="_blank"><i class="fa fa-linkedin w3-xlarge"></i></a>
-						<a href="mailto:amey36thakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
-						<a href="https://github.com/ameythakur-del" target="_blank"><i class="fa fa-github w3-xlarge"></i></a>	
+<div id="next_modal" class="w3-modal" style="display: none; position: fixed;">
+	<div class="w3-modal-content">
+		<header class="w3-container">
+			<span class="w3-display-topright w3-button" onclick="close_modal('next_modal')">&times;</span>
+			<div class="w3-large w3-margin-top">What's Next !</div>
+		</header>
+		<div class="w3-container w3-padding w3-margin-bottom">
+			<div class="w3-large w3-margin-top">
+				This was just a demo website. We have not tied up with any of the messes registered on this website. But we are thinking of it. What do you think? Let us know about your experience with this website on our social media handles.
+			</div>
+			<div class="w3-padding w3-acp-dark-green w3-border-acp-mid-green w3-leftbar w3-rightbar w3-margin-top ">
+				
+				
+				Developed by:
+				<div class="w3-container">
+					<div class="w3-row">
+					<div class="w3-col l3">Ritesh Thakur</div>
+					<div class="w3-col l4">
+							<a href="https://twitter.com/ritesh_dt" target="_blank"><i class="fa fa-twitter w3-xlarge"></i></a>
+							<a href="https://www.linkedin.com/in/ritesh-dt" target="_blank"><i class="fa fa-linkedin w3-xlarge"></i></a>
+							<a href="mailto:riteshdthakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
+							<a href="https://github.com/ritesh-dt" target="_blank"><i class="fa fa-github w3-xlarge"></i></a>
 					</div>
-				</div>	
-			</div>		
-		</div>
-		<div class="w3-padding w3-pale-yellow w3-border-yellow w3-leftbar w3-rightbar w3-margin-top">
-			Special thanks to Rishikesh, Abhay and Vishal who helped us along the way!!
+
+					<br>
+					<div class="w3-row">
+					<div>
+						<div class="w3-col l3"> Amey Thakur</div>
+						<div class="w3-col l3">
+							<a href="https://twitter.com/ameythakur9" target="_blank"><i class="fa fa-twitter w3-xlarge"></i></a>
+							<a href="https://www.linkedin.com/in/amey-thakur-54a030134" target="_blank"><i class="fa fa-linkedin w3-xlarge"></i></a>
+							<a href="mailto:amey36thakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
+							<a href="https://github.com/ameythakur-del" target="_blank"><i class="fa fa-github w3-xlarge"></i></a>	
+						</div>
+					</div>	
+				</div>		
+			</div>
+			<div class="w3-padding w3-pale-yellow w3-border-yellow w3-leftbar w3-rightbar w3-margin-top">
+				Special thanks to Rishikesh, Abhay and Vishal who helped us along the way!!
+			</div>
 		</div>
 	</div>
 </div>
