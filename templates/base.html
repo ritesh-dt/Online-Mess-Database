@@ -1,7 +1,9 @@
 <html>
 <head>
 	<link rel="stylesheet" href="{{ url_for('static', filename='style/base.css') }}">
+	<link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Noto+Serif:ital,wght@1,700&family=Pangolin&family=Titillium+Web:wght@200&display=swap" rel="stylesheet"> 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<!-- W3.CSS stylesheet and Font Awesome icons 
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">	-->
 	<link rel="stylesheet" href="{{ url_for('static', filename='style/w3css.css')}}">
@@ -10,21 +12,26 @@
 	{% block css %}{% endblock %}
 </head>
 <body>
-<div class="w3-bar navbar w3-acp-dark-white"style="height: 15vh;display:block;justify-content:space-between;overflow: hidden;align-items: center;text-transform: uppercase;padding: 20px 10px !important;">
-	<p class="w3-bar-item w3-large" style="margin: 0"><b>A Way To Find A Mess...</b></p>
-	<a href="/home" class="w3-bar-item w3-button">Home</a>
-	<a href="/search?text_query_name=" class="w3-bar-item w3-button">Explore</a>
+
+<!-- Horizontal Navigation Bar -->
+<div class="w3-bar navbar w3-acp-dark-white"style="height: 11vh;display:block;justify-content:space-between;overflow: hidden;align-items: center;text-transform: uppercase;padding: 20px 10px !important;">
+	<p class="w3-bar-item w3-large" style="margin: 0">
+		<b style="font-family: 'Balsamiq Sans', serif;">OnlineMess</b>
+	</p>
+	<a href="/home" class="w3-bar-item w3-button w3-hide-small">Home</a>
+	<a href="/search?text_query_name=" class="w3-bar-item w3-button w3-hide-small">Explore</a>
+	<button class="w3-bar-item w3-button w3-right w3-hide-medium w3-hide-large w3-large" onclick="showVerticalNav()">&#9776;</button>
 	{% if logged_in[2] == "10@10.com" %}
-		<a href="/admin" class="w3-bar-item w3-button">Administration</a>
+		<a href="/admin" class="w3-bar-item w3-button w3-hide-small">Administration</a>
 	{% endif %}
 	{% if logged_in %}
-		<div class="w3-dropdown-click w3-right w3-margin-right">
+		<div class="w3-dropdown-click w3-right w3-margin-right w3-hide-small">
 			<button class="w3-button" onclick="displayUserSettings()">
 				{{ logged_in[0] }} <i class="fa fa-caret-down"></i>
 			</button>
 			<div id="userSettings" class="w3-dropdown-content w3-bar-block w3-light-grey" style="text-transform: none;">
 				{% if logged_in[1] == "Regular" %}
-					<a class="w3-bar-item w3-button" href="/user/subscriptions">Subscriptions</a>
+					<a class="w3-bar-item w3-button" href="/user/subscriptions">My meals</a>
 				{% elif logged_in[1] == "Business" %}
 					<a class="w3-bar-item w3-button" href="/user/restaurant">Manage your business</a>
 					<a class="w3-bar-item w3-button" href="/user/orders">Orders</a>
@@ -34,9 +41,38 @@
 			</div>
 		</div>
 	{% else %}
-		<button class="w3-bar-item w3-button w3-right w3-hover-blue" onclick="document.getElementById('signup_modal').style.display='block'">Register</a>
-		<button class="w3-bar-item w3-button w3-right  w3-hover-green" onclick="document.getElementById('login_modal').style.display='block'">Login</a>
-		
+		<button class="w3-bar-item w3-button w3-right w3-hover-blue w3-hide-small" onclick="document.getElementById('signup_modal').style.display='block'">Register</button>
+		<button class="w3-bar-item w3-button w3-right  w3-hover-green w3-hide-small" onclick="document.getElementById('login_modal').style.display='block'">Login</button>
+	{% endif %}
+</div>
+
+<!-- Vertical Navigation Bar -->
+<div id="vertical_nav" class="w3-bar-block navbar w3-white w3-hide w3-hide-large w3-hide-medium w3-border">
+
+	<a href="/home" class="w3-bar-item w3-button w3-border-bottom">Home</a>
+	<a href="/search?text_query_name=" class="w3-bar-item w3-button w3-border-bottom">Explore</a>
+	{% if logged_in[2] == "10@10.com" %}
+		<a href="/admin" class="w3-bar-item w3-button w3-border-bottom">Administration</a>
+	{% endif %}
+	{% if logged_in %}
+		<div class="w3-dropdown-click w3-right">
+			<button class="w3-button w3-white" onclick="displayUserSettings()">
+				{{ logged_in[0] }} <i class="fa fa-caret-down"></i>
+			</button>
+			<div id="userSettings" class="w3-bar-item w3-dropdown-content w3-bar-block w3-border w3-light-grey" style="text-transform: none;">
+				{% if logged_in[1] == "Regular" %}
+					<a class="w3-bar-item w3-button" href="/user/subscriptions">My meals</a>
+				{% elif logged_in[1] == "Business" %}
+					<a class="w3-bar-item w3-button" href="/user/restaurant">Manage your business</a>
+					<a class="w3-bar-item w3-button" href="/user/orders">Orders</a>
+				{% endif %}
+				<a class="w3-bar-item w3-button" href="/forgot">Update password</a>
+				<a class="w3-bar-item w3-button" href="/logout">Logout</a>
+			</div>
+		</div>
+	{% else %}
+		<button class="w3-bar-item w3-button w3-right w3-hover-blue" onclick="document.getElementById('signup_modal').style.display='block'">Register</a></button>
+		<button class="w3-bar-item w3-button w3-right  w3-hover-green" onclick="document.getElementById('login_modal').style.display='block'">Login</a></button>
 	{% endif %}
 </div>
 
@@ -141,5 +177,15 @@
 	}
 </script>
 {% endif %}
+<script>
+	function showVerticalNav() {
+		var x = document.getElementById("vertical_nav");
+		if (x.className.indexOf("w3-show") == -1) {
+			x.className += " w3-show";
+		} else { 
+			x.className = x.className.replace(" w3-show", "");
+		}
+	}
+</script>
 </body>
 </html>

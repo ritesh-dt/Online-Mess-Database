@@ -2,66 +2,37 @@
 {% block title %}Home{% endblock %}
 {% block css %}
 	<link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='style/OnlineMess.css') }}">
-
+	<link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&family=Noto+Serif:ital,wght@1,700&family=Pangolin&family=Titillium+Web:wght@200&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 {% endblock %}
-
 {% block content %}
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <header class="home-header w3-padding w3-center" style="background-image: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.1)),url('{{ url_for('static', filename='img/back.jpg')}}');background-repeat: no-repeat;
-	background-size: cover;">
-	<br>
+	background-size: cover;
+	height: 70vh;">
 
-	<section class="w3-container w3-margin-bottom w3-text-white">
-		<br>
-		<br>
-		<br>
-		
-	 
-	 <p style = "font-family:Times New Roman,serif;letter-spacing: 5px;"class="w3-text-white"><b>Welcome in the world of messes</b></p>
+	<section class="w3-container w3-margin-bottom w3-text-white" style="margin-top: 15vh;">
+		<p style="font-family:Times New Roman,serif;letter-spacing: 3px;" class="w3-text-white">
+		<b>Welcome in the world of messes</b>
+		</p>
         
 	 	
-		<h3>A Place To Find Healthy Food</h3>
+		<h3 style="font-family: 'Balsamiq Sans';">A Place to Find Healthy Food</h3>
 		
-		<h1>Earn great discounts on every plate you Subscribe !</h1>
-		<br>
-		<br>
-		<br>
+		<h1 style="height: 15vh;">Earn great discounts on every plate you subscribe!!</h1>
 		
-	  <a href="/search?text_query_name=" class="w3-button w3-hover-white w3-acp-mid-green">Get Started</a>
-
-	  <br>
-	  <br>
-	  <br>
-	  <br>
-	  <br>
-	  <br>
-	  <br>
-	  <br>
-	  <br>
-	  <br>
-	  <br>
-	  <br><br>
-
-	  <div class="w3-xxxlarge" style="color: black">What is Onlinemess !</div>	
-	  <p id = "amey">In cities, People Who are dependent on messes for their need of healthy meal, Generally struggle to find place where they can get hygienic meal. Even if one finds such mess which provide quality of food, He/She have to pay there for the meal of entire month to get it at a affordable price.<br><br> So, this is our initiative to help such people to find out good messes and making available hygienic food at the least possible price.</p>	
-	  <br>
-
-
-	  <a href="/learn" class="w3-button w3-hover-white w3-center w3-acp-mid-green">Learn More</a>		   
+	  <a href="/search?text_query_name=" class="w3-button w3-hover-acp-dark-green w3-acp-mid-green">Get Started</a>
+	  <div class="w3-xxxlarge" style="color: black; margin-top: 10vh;">What is OnlineMess?</div>	
+	  <p id="home_text_box">In cities, people who are dependent on messes for their daily meals generally struggle to find a place where they can get hygienic food. Even if one finds such mess which provide quality of food, they will have to pay for a month's subscription to get it at an affordable price.<br><br> Our initiative is to help such people find messes which provide hygienic food at the least possible price.</p>
+	  <a href="/learn" class="w3-button w3-acp-mid-green w3-center w3-hover-acp-dark-green w3-margin-top">Learn More</a>		   
 	</section>
-<br/>
-<br>
-<br>
-<br><br>
-<!-- gallery section -->
-<div id="gallery" class="w3-center w3-margin w3-round-large" style="background-color: #EEEEEE ;">
+
+
+<div id="gallery" class="w3-center w3-round-large" style="background-color: #EEEEEE ; margin-top: 10vh">
 	<div class="row" class="w3-round">
 		<div>
 			<div class="w3-text-black w3-border-bottom w3-xxxlarge">Food Gallery</div>
 			<hr>
-			<div class="w3-row">
+			<div class="w3-row w3-half">
 				<div class="w3-half">
 				   <img class="w3-round-large" src="{{ url_for('static',filename='img/indianthali.jpg') }}" alt="Image not found" />
 					
@@ -70,7 +41,7 @@
                     <img class="w3-round-large" src="{{ url_for('static',filename='img/completemeal.jpg') }}" alt="Image not found" />
 				</div>
 			</div>
-			 <div class="w3-row">
+			 <div class="w3-row w3-half">
 				<div class="w3-half">
 				    <img class="w3-round-large" src="{{ url_for('static',filename='img/south-indian.jpg') }}" alt="Image not found"/>
 				</div>

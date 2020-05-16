@@ -111,6 +111,8 @@ def check_details(*details):
 	return True
 
 @app.route("/")
+def index():
+	return redirect(url_for("home"))
 @app.route("/home")
 def home():
 	# db.drop_all()
@@ -318,8 +320,36 @@ def send_image(filename):
 def restaurant(restaurant_id):
 	if "user" in session:
 		loggedIn = [session["username"], session["account_type"], session["user"]]
+		currentUser = UsersDB.query.filter_by(email=session["user"]).first()
+		if currentUser:
+			subscribed_list = []
+			currentBills = BillsDB.query.filter_by(subscriber=currentUser.id, creator=restaurant_id, active=0b1).all()
+			if currentBills:
+				updated_subscriptions = currentBills
+				for bill in currentBills:
+					if bill:
+						end_date = datetime.strptime(bill.timestamp, '%Y-%m-%d %H:%M:%S.%f') +timedelta(days=1)
+
+						restaurant = RestaurantsDB.query.filter_by(id=restaurant_id).first()
+						if restaurant:
+							if datetime.now() > end_date:
+								updated_subscriptions.remove(bill)
+								bill.active = 0b0
+								bill.coupon = ""
+								db.session.commit()
+								flash(f"{restaurant.name} - Subscription expired on {end_date.strftime('%a, %d %b %Y')}", "error")
+								continue
+							bill_orders = OrdersDB.query.filter_by(bill_id=bill.id).all()
+							items = []
+							for order in bill_orders:
+								print("Order", order)
+								items.append([order.item, order.quantity, order.price])
+
+							subscribed_list.append([restaurant, items, bill.total_price, end_date.strftime("%a, %d %b %Y"), bill.coupon])
+
 	else:
 		loggedIn = None
+		subscribed_list = None
 	currentRest = RestaurantsDB.query.filter_by(id=restaurant_id).first()
 	if currentRest:
 		if request.method == "POST":
@@ -346,34 +376,8 @@ def restaurant(restaurant_id):
 						db.session.add(currentOrder)
 						db.session.commit()
 
-				subscribed_list = []
-				currentBills = BillsDB.query.filter_by(subscriber=currentUser.id, active=0b1).all()
-				if currentBills:
-					updated_subscriptions = currentBills
-					for bill in currentBills:
-						if bill:
-							restaurant_id = bill.creator
-							end_date = datetime.strptime(bill.timestamp, '%Y-%m-%d %H:%M:%S.%f') +timedelta(days=1)
-
-							restaurant = RestaurantsDB.query.filter_by(id=restaurant_id).first()
-							if restaurant:
-								if datetime.now() > end_date:
-									updated_subscriptions.remove(bill)
-									bill.active = 0b0
-									bill.coupon = ""
-									db.session.commit()
-									flash(f"{restaurant.name} - Subscription expired on {end_date.strftime('%a, %d %b %Y')}", "error")
-									continue
-								bill_orders = OrdersDB.query.filter_by(bill_id=bill.id).all()
-								items = []
-								for order in bill_orders:
-									print("Order", order)
-									items.append([order.item, order.quantity, order.price])
-
-								subscribed_list.append([restaurant, items, bill.total_price, end_date.strftime("%a, %d %b %Y"), bill.coupon])
-
-					flash("Order successful!! You have to pay the price at the mess", "success")
-				return render_template("subscriptions.html", logged_in=loggedIn, email=session["user"], subscribed_list=subscribed_list, verified=currentUser.verified)
+				flash("Order successful!! You have to pay the price at the mess", "success")
+				return redirect(url_for("restaurant", restaurant_id=restaurant_id))
 
 			else:
 				flash("Please login first!!", "error")
@@ -387,7 +391,7 @@ def restaurant(restaurant_id):
 			if item[-2] not in categorized_menu:
 				categorized_menu[item[-2]] = []
 			categorized_menu[item[-2]].append(item)
-		return render_template("restaurant.html", restaurant=currentRest, logged_in=loggedIn, categorized_menu=categorized_menu)
+		return render_template("restaurant.html", restaurant=currentRest, logged_in=loggedIn, categorized_menu=categorized_menu, subscribed_list=subscribed_list)
 	else:
 		return render_template("search.html", logged_in=loggedIn)
 
@@ -454,9 +458,9 @@ def user_restaurant():
 		return redirect(url_for("subscriptions", logged_in=[session["username"], session["account_type"]]))
 	currentRest = RestaurantsDB.query.filter_by(owner=currentUser.id).first()
 	if not currentRest:
-		currentRest = {key: "" for key in ["name", "address", "phone",  "opening_timing","closing_timing", "tags", "rating"]}
+		currentRest = {key: "" for key in ["name", "address", "phone",  "opening_timing","closing_timing", "tags"]}
 		list_menu = [("", "", "Other", 0) for i in range(15)]
-		list_menu[0] = ("", "", "Other", 1)
+		#list_menu[0] = ("", "", "Other", 1)
 	else:
 		list_menu = [tuple(item.split("~")) for item in currentRest.menu.split("| ")]
 	if request.method == "POST":
@@ -501,19 +505,19 @@ def user_restaurant():
 			dropdown_categories = [request.form[f"dropdown_categories_{i}"] for i in range(15) if f"dropdown_categories_{i}" in request.form]
 			#radio_search_display = int(request.form["radio_search_display"].split("_")[-1])
 
-			search_display = [0 for _ in range(15)]
+			#search_display = [0 for _ in range(15)]
 			#search_display[radio_search_display] = 1
 			#average_cost = sum(list(map(int, [item for item in text_menu_prices if item != ""])))/len([item for item in text_menu_names if item != ""])
 
-			text_menu_subscribe = [0 for _ in range(15)] 
-			for key in filter(lambda x: "checkbox_menu_subscribe_" in x, request.form.keys()):
-				text_menu_subscribe[int(key.split("_")[-1])] = 1
+			#text_menu_subscribe = [0 for _ in range(15)] 
+			#for key in filter(lambda x: "checkbox_menu_subscribe_" in x, request.form.keys()):
+			#	text_menu_subscribe[int(key.split("_")[-1])] = 1
 			
 			if not check_details(text_name, text_address, text_phone,  text_timing_opening, text_timing_closing, text_tags, text_menu_names, text_menu_prices, main_menu_name, main_menu_price):
 				flash("Please fill all the restaurant details", "error")
 			else:
 
-				text_menu = "| ".join([f"{name}~{price}~{subscribe}~{category}~{display}" for name, price, subscribe, category, display in zip(text_menu_names, text_menu_prices, text_menu_subscribe, dropdown_categories, search_display)])
+				text_menu = "| ".join([f"{name}~{price}~{category}" for name, price, category in zip(text_menu_names, text_menu_prices, dropdown_categories)])
 
 				if not RestaurantsDB.query.filter_by(owner=currentUser.id).first():
 					flash("Added your restaurant successfully!!!", "success")
