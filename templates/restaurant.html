@@ -49,7 +49,7 @@
 		{% for category, menu in categorized_menu.items() %}
 			<div class="w3-container w3-border-bottom w3-margin">
 				<div class="w3-xlarge">{{category}}</div>
-				{% for item in menu*10 %}
+				{% for item in menu %}
 					{% if item[0] and item[1] %}
 					<div class="w3-quarter">
 						<div class="w3-card w3-round-large w3-margin w3-hover-shadow">
