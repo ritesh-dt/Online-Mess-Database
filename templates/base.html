@@ -14,14 +14,20 @@
 <body>
 
 <!-- Horizontal Navigation Bar -->
-<div class="w3-bar navbar w3-acp-dark-white"style="height: 11vh;display:block;justify-content:space-between;overflow: hidden;align-items: center;text-transform: uppercase;padding: 20px 10px !important;">
+<div class="w3-bar navbar 
+	{% if request.path == '/home' %}
+		w3-white
+	{% else %}
+		w3-acp-dark-green
+	{% endif %}
+	"style="height: 11vh;display:block;justify-content:space-between;overflow: hidden;align-items: center;text-transform: uppercase;padding: 20px 10px !important;">
 	<p class="w3-bar-item w3-large" style="margin: 0">
 		<b style="font-family: 'Balsamiq Sans', serif;">OnlineMess</b>
 	</p>
 	<a href="/home" class="w3-bar-item w3-button w3-hide-small">Home</a>
 	<a href="/search?text_query_name=" class="w3-bar-item w3-button w3-hide-small">Explore</a>
 	<button class="w3-bar-item w3-button w3-right w3-hide-medium w3-hide-large w3-large" onclick="showVerticalNav()">&#9776;</button>
-	{% if logged_in[2] == "10@10.com" %}
+	{% if logged_in[2] == "admin@onlinemess.com" %}
 		<a href="/admin" class="w3-bar-item w3-button w3-hide-small">Administration</a>
 	{% endif %}
 	{% if logged_in %}
@@ -41,8 +47,8 @@
 			</div>
 		</div>
 	{% else %}
-		<button class="w3-bar-item w3-button w3-right w3-hover-blue w3-hide-small" onclick="document.getElementById('signup_modal').style.display='block'">Register</button>
-		<button class="w3-bar-item w3-button w3-right  w3-hover-green w3-hide-small" onclick="document.getElementById('login_modal').style.display='block'">Login</button>
+		<button class="w3-bar-item w3-button w3-right w3-hover-blue w3-hide-small" onclick="open_modal('signup_modal')">Register</button>
+		<button class="w3-bar-item w3-button w3-right w3-hover-acp-mid-green w3-hide-small" onclick="open_modal('login_modal')">Login</button>
 	{% endif %}
 </div>
 
@@ -71,8 +77,8 @@
 			</div>
 		</div>
 	{% else %}
-		<button class="w3-bar-item w3-button w3-right w3-hover-blue" onclick="document.getElementById('signup_modal').style.display='block'">Register</a></button>
-		<button class="w3-bar-item w3-button w3-right  w3-hover-green" onclick="document.getElementById('login_modal').style.display='block'">Login</a></button>
+		<button class="w3-bar-item w3-button w3-right w3-hover-blue" onclick="open_modal('signup_modal')">Register</a></button>
+		<button class="w3-bar-item w3-button w3-right  w3-hover-acp-mid-green" onclick="open_modal('login_modal')">Login</a></button>
 	{% endif %}
 </div>
 
@@ -98,12 +104,13 @@
 	{% block content %}{% endblock %}
 </main>
 {% if not logged_in %}
-	<div id="login_modal" class="w3-card w3-display-container w3-border w3-third w3-light-grey w3-display-middle" style="display: none">
-		<header class="w3-container">
-			<span class="w3-display-topright w3-button" onclick="document.getElementById('login_modal').style.display='none'">&times;</span>
-			<h4>Login to your account</h4>
-		</header>
-		<form action="{{ '/login' + request.full_path }}" method="post">
+	<div id="login_modal" class="w3-modal" style="display: none;">
+		<div class="w3-modal-content w3-card">
+			<header class="w3-container">
+				<span class="w3-display-topright w3-button" onclick="close_modal('login_modal')">&times;</span>
+				<h4>Login to your account</h4>
+			</header>
+			<form action="{{ '/login' + request.full_path }}" method="post">
 			<div class="w3-container w3-padding-32">
 				<label>Email:</label>
 				<input type="text" class="w3-input w3-border" name="text_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
@@ -112,58 +119,61 @@
 			</div>
 		
 			<footer class="w3-container w3-padding">
-				<button type="submit" class="w3-button w3-green" >Login</button>
-				<a href="forgot" class="w3-button w3-red w3-right">Forgot Password</a>
+				<button type="submit" class="w3-button w3-acp-mid-green w3-round" >Login</button>
+				<a href="forgot" class="w3-button w3-red w3-right w3-round">Forgot Password</a>
 			</footer>
-		</form>
+			</form>
+		</div>
 	</div>
-	<div id="signup_modal" class="w3-card w3-display-container w3-border w3-third w3-light-grey w3-display-middle" style="display: none">
-		<header class="w3-container w3-margin">
-			<span class="w3-display-topright w3-button" onclick="document.getElementById('signup_modal').style.display='none'">&times;</span>
-			<h4>Register</h4>
-		</header>
+	<div id="signup_modal" class="w3-modal" style="display: none;">
+		<div class="w3-modal-content w3-card">
+			<header class="w3-container w3-margin">
+				<span class="w3-display-topright w3-button" onclick="close_modal('signup_modal')">&times;</span>
+				<h4>Register</h4>
+			</header>
 
-		<form action="{{ '/signup' + request.full_path }}" method="post">
-			<div class="w3-container ">
-				<div class="w3-row-padding">
-					<div class="w3-rest w3-margin-left">
-						<label>Account type:</label>
+			<form action="{{ '/signup' + request.full_path }}" method="post">
+				<div class="w3-container ">
+					<div class="w3-row-padding">
+						<div class="w3-rest w3-margin-left">
+							<label>Account type:</label>
+						</div>
+					</div>
+					<div class="w3-row-padding w3-margin-bottom w3-margin-left">
+						<div class="w3-half">
+							<label>Regular</label>
+							<input type="radio" class="w3-radio" name="radio_account_type" value="Regular" checked>
+						</div>
+						<div class="w3-half">
+							<label>Business</label>
+							<input type="radio" class="w3-radio" name="radio_account_type" value="Business">
+						</div>
+					</div>
+					<div class="w3-row-padding">
+						<div class="w3-half">
+							<label>First name:</label>
+							<input type="text" class="w3-input w3-border" name="text_first_name" required>
+						</div>
+						<div class="w3-half">
+							<label>Last name:</label>
+							<input type="text" class="w3-input w3-border" name="text_last_name" required>
+						</div>
+					</div>
+					<div class="w3-padding">
+						<label>Email:</label>
+						<input type="text" class="w3-input w3-border w3-padding" name="text_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+						<label>Password:</label>
+						<input type="password" class="w3-input w3-border" name="text_password" required>
+						<label>Repeat password:</label>
+						<input type="password" class="w3-input w3-border" name="text_repeat_password" required>
 					</div>
 				</div>
-				<div class="w3-row-padding w3-margin-bottom w3-margin-left">
-					<div class="w3-half">
-						<label>Regular</label>
-						<input type="radio" class="w3-radio" name="radio_account_type" value="Regular" checked>
-					</div>
-					<div class="w3-half">
-						<label>Business</label>
-						<input type="radio" class="w3-radio" name="radio_account_type" value="Business">
-					</div>
-				</div>
-				<div class="w3-row-padding">
-					<div class="w3-half">
-						<label>First name:</label>
-						<input type="text" class="w3-input w3-border" name="text_first_name" required>
-					</div>
-					<div class="w3-half">
-						<label>Last name:</label>
-						<input type="text" class="w3-input w3-border" name="text_last_name" required>
-					</div>
-				</div>
-				<div class="w3-padding">
-					<label>Email:</label>
-					<input type="text" class="w3-input w3-border w3-padding" name="text_email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
-					<label>Password:</label>
-					<input type="password" class="w3-input w3-border" name="text_password" required>
-					<label>Repeat password:</label>
-					<input type="password" class="w3-input w3-border" name="text_repeat_password" required>
-					<button type="submit" class="w3-button w3-green w3-margin-top" >Register</button>
-				</div>
-			</div>
-		
-			<footer class="w3-container">
-			</footer>
-		</form>
+			
+				<footer class="w3-container">
+					<button type="submit" class="w3-button w3-acp-mid-green w3-margin w3-round">Register</button>
+				</footer>
+			</form>
+		</div>
 	</div>
 {% else %}
 <script type="text/javascript">
@@ -186,6 +196,20 @@
 			x.className = x.className.replace(" w3-show", "");
 		}
 	}
+</script>
+<script type="text/javascript">
+
+	function open_modal(modal_id)  {
+		document.getElementById(modal_id).style.display='block';	
+
+	}
+	function close_modal(modal_id) {
+		document.getElementById(modal_id).style.display='none';	
+	}
+
+	window.addEventListener('scroll', () => {
+		document.documentElement.style.setProperty('--scroll-y', `${window.scrollY}px`);
+	});
 </script>
 </body>
 </html>

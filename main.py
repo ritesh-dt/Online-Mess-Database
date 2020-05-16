@@ -17,7 +17,7 @@ app.secret_key = "Hello"
 
 IMAGE_EXTENSIONS = ["png", "jpg", "jpeg", "bmp"]
 SERVER_URL = "http://127.0.0.1:5000/"
-ADMIN_EMAIL = "10@10.com"
+ADMIN_EMAIL = "admin@onlinemess.com"
 
 # Database Section
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.sqlite3"
@@ -82,8 +82,8 @@ db.create_all()
 # Database End
 
 # Email sending
-SENDER_EMAIL = "***REMOVED***"
-SENDER_PASS = "***REMOVED***"
+SENDER_EMAIL = ""
+SENDER_PASS = ""
 
 app.config.update(
 	MAIL_SERVER = 'smtp.gmail.com',
@@ -92,7 +92,7 @@ app.config.update(
 	MAIL_USERNAME = SENDER_EMAIL,
 	MAIL_PASSWORD = SENDER_PASS
 )
-mail = Mail(app)
+#mail = Mail(app)
 
 def send_email(recipient, subject, body):
 	with app.app_context():
@@ -133,7 +133,7 @@ def search():
 			text_query_list = text_query.split()
 			query_result = RestaurantsDB.query.filter(RestaurantsDB.name.contains(text_query), RestaurantsDB.rating.isnot(None)).all()
 			for restaurant in RestaurantsDB.query.all():
-				print(restaurant.rating)
+				#print(restaurant.rating)
 				if restaurant in query_result or restaurant.rating == None:
 					continue
 				for text_query_item in text_query_list:
@@ -271,7 +271,7 @@ def forgot():
 					else:
 						reset_key = "".join([random.choice(ascii_lowercase + digits) for letter in range(8)])
 						reset_keys[currentUser.email] = bcrypt.hashpw(reset_key.encode(), bcrypt.gensalt())
-						send_email(currentUser.email, "Password change requested", f"A password change request has been submitted for your account\n Your password reset key is {reset_key}\n If you did not request for the same, please ignore this email")
+						#send_email(currentUser.email, "Password change requested", f"A password change request has been submitted for your account\n Your password reset key is {reset_key}\n If you did not request for the same, please ignore this email")
 						flash("Email has been sent", "success")
 					allow_key = True
 			else:
@@ -304,7 +304,7 @@ def verify(verification_code):
 		if currentUser:
 			currentUser.verified = True
 			db.session.commit()
-			print("Verified")
+			#print("Verified")
 		del verification_codes[verification_code]
 	return redirect(url_for("home"))
 
@@ -342,7 +342,7 @@ def restaurant(restaurant_id):
 							bill_orders = OrdersDB.query.filter_by(bill_id=bill.id).all()
 							items = []
 							for order in bill_orders:
-								print("Order", order)
+								#print("Order", order)
 								items.append([order.item, order.quantity, order.price])
 
 							subscribed_list.append([restaurant, items, bill.total_price, end_date.strftime("%a, %d %b %Y"), bill.coupon])
@@ -353,7 +353,7 @@ def restaurant(restaurant_id):
 	currentRest = RestaurantsDB.query.filter_by(id=restaurant_id).first()
 	if currentRest:
 		if request.method == "POST":
-			print(request.form)
+			#print(request.form)
 			if "user" in session:
 				currentUser = UsersDB.query.filter_by(email=session["user"]).first()
 				coupon_code =  "".join([random.choice(ascii_uppercase + digits) for letter in range(6)])
@@ -361,7 +361,7 @@ def restaurant(restaurant_id):
 				db.session.add(currentBill)
 				db.session.commit()
 
-				print(currentBill.id, request.form)
+				#print(currentBill.id, request.form)
 				menu = []
 				for item in currentRest.menu.split("| "):
 					menu.append(item.split("~"))
@@ -370,7 +370,7 @@ def restaurant(restaurant_id):
 						item_index = int(key.split("_")[-1])
 						item_name, item_price = menu[item_index][:2] 
 						item_count = int(request.form[key])
-						print(item_name, item_count)
+						#print(item_name, item_count)
 
 						currentOrder = OrdersDB(bill_id=currentBill.id, item=item_name, quantity=item_count, price=item_count*float(item_price))
 						db.session.add(currentOrder)
@@ -385,12 +385,14 @@ def restaurant(restaurant_id):
 		menu = []
 		for index, item in enumerate(currentRest.menu.split("| "), 0):
 			menu.append(item.split("~")+[index])
-		print(menu)
 		categorized_menu = {}
 		for item in menu:
 			if item[-2] not in categorized_menu:
 				categorized_menu[item[-2]] = []
 			categorized_menu[item[-2]].append(item)
+		if currentRest.main_menu_name and currentRest.main_menu_price:
+			categorized_menu["Our Speciality"] = [[currentRest.main_menu_name, currentRest.main_menu_price, "Our Speciality", 11]]
+		#print(categorized_menu)
 		return render_template("restaurant.html", restaurant=currentRest, logged_in=loggedIn, categorized_menu=categorized_menu, subscribed_list=subscribed_list)
 	else:
 		return render_template("search.html", logged_in=loggedIn)
@@ -411,7 +413,7 @@ def subscriptions():
 		if "button_verify" in request.form:
 			verification_code = "".join([random.choice(ascii_lowercase + digits) for letter in range(16)])
 			verification_codes[verification_code] = currentUser.email
-			send_email(currentUser.email, "Email verification", f"Please verify this email for your account\n{SERVER_URL}/verify/{verification_code}")
+			#send_email(currentUser.email, "Email verification", f"Please verify this email for your account\n{SERVER_URL}/verify/{verification_code}")
 			flash("Verification email has been sent", "success")
 	subscribed_list = []
 	currentBills = BillsDB.query.filter_by(subscriber=currentUser.id, active=0b1).all()
@@ -434,7 +436,7 @@ def subscriptions():
 					bill_orders = OrdersDB.query.filter_by(bill_id=bill.id).all()
 					items = []
 					for order in bill_orders:
-						print("Order", order)
+						#print("Order", order)
 						items.append([order.item, order.quantity, order.price])
 
 					subscribed_list.append([restaurant, items, bill.total_price, end_date.strftime("%a, %d %b %Y"), bill.coupon])
@@ -464,7 +466,7 @@ def user_restaurant():
 	else:
 		list_menu = [tuple(item.split("~")) for item in currentRest.menu.split("| ")]
 	if request.method == "POST":
-		print(request.form)
+		#print(request.form)
 		if "file_image" in request.files:
 			if "button_image_delete_" in str(request.form):
 				for key in request.form:
@@ -540,7 +542,7 @@ def user_restaurant():
 			
 				list_menu = [tuple(item.split("~")) for item in currentRest.menu.split("| ")]
 		return redirect(url_for("user_restaurant"))
-	print("MENU", list_menu)
+	#print("MENU", list_menu)
 	return render_template("user_restaurant.html", logged_in=loggedIn, account_type=session["account_type"], restaurant=currentRest, menu=list_menu)
 
 @app.route("/user/orders", methods=["POST", "GET"])
@@ -581,7 +583,7 @@ def orders():
 							else:
 								flash("Invalid coupon code or email", "error")
 					elif "button_mark_used" in request.form:
-						print(request.form)
+						#print(request.form)
 						text_order_info = int(request.form["text_order_info"])
 						currentBill = BillsDB.query.filter_by(id=text_order_info, active=0b1).first()
 						if currentBill:
@@ -645,7 +647,7 @@ def admin():
 		pending_list = RestaurantsDB.query.filter_by(rating=None).all()
 		approved_list = RestaurantsDB.query.filter(RestaurantsDB.rating.isnot(None)).all()
 		if request.method == "POST":
-			print("REDIRECTING....")
+			#print("REDIRECTING....")
 			return redirect(url_for("admin"))
 		return render_template("admin.html", logged_in=loggedIn, pending_list=pending_list, approved_list=approved_list)
 	else:

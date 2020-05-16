@@ -11,9 +11,6 @@
 			<div class="w3-card w3-round-large w3-margin w3-hover-shadow">
 				<div class="w3-container">
 					<h3 class="w3-xlarge">{{restaurant[0].name}}
-
-						<div class="w3-text-green w3-right">Rs. {{restaurant[2]}}</div> 
-
 					</h3>
 
 					{% for order in restaurant[1] %}
@@ -36,7 +33,7 @@
 		<div id="carousel" class="w3-center w3-black">
 			{% for img in restaurant.images %}
 				<div class="image_tile">
-					<img src="{{ url_for('send_image', filename=img.image_name) }}" alt="Image not found" height="400px"/>
+					<img src="{{ url_for('send_image', filename=img.image_name) }}" alt="Image not found" height="400px" onclick="showImage(this)"/>
 				</div>
 			{% endfor %}
 		</div>
@@ -44,8 +41,59 @@
 	
 	<div class="w3-center w3-xxxlarge w3-margin">{{ restaurant.name }}</div>
 	<div class="w3-container">
-		<div class="w3-center w3-xxlarge w3-text-blue w3-light-grey">Menu</div>
 		<form method="post" id='order_form'>
+		{% if categorized_menu["Our Speciality"] %}
+			<div class="w3-xxlarge w3-light-grey w3-text-red w3-center">Our Speciality</div>
+			<div class="w3-container">
+				{% for item in categorized_menu["Our Speciality"] %}
+					{% if item[0] and item[1] %}
+					<div class="w3-quarter">
+						<div class="w3-card w3-round-large w3-margin w3-hover-shadow">
+							<div class="w3-container w3-padding">
+								<div class="w3-large w3-twothird">{{ item[0] }}</div>
+								<div class="w3-text-green w3-right w3-large w3-rest">Rs. {{ item[1]}}</div>
+							</div>
+							<footer class="w3-container">
+								<div class="w3-button w3-border w3-content w3-margin-bottom" onclick="
+									var current_count = parseInt(this.parentElement.children[1].value);
+									var current_price = parseInt(document.getElementById('text_total_price').value);
+									var item_price = parseInt('{{item[1]|int}}');
+									if (current_count >= 1)
+									{
+										this.parentElement.children[1].value = current_count - 1;
+										document.getElementById('text_total_price').value = current_price - item_price;
+										document.getElementById('label_total_price').textContent = 'Rs. ' + (current_price-item_price);
+									} ">
+									<i class="fa fa-minus"></i>
+								</div>
+									<input type="text" id="item_count" class="w3-padding-small w3-quarter w3-border w3-center w3-input w3-margin-right w3-margin-bottom" value="0" name="text_count_{{item[-1]}}"readonly/>
+								<div class="w3-button w3-border w3-content w3-margin-bottom" onclick="
+									var current_count = parseInt(this.parentElement.children[1].value);
+									var current_price = parseInt(document.getElementById('text_total_price').value);
+									var item_price = parseInt('{{item[1]|int}}');
+
+									if (current_count <= 9)
+									{
+										this.parentElement.children[1].value = current_count + 1;
+										document.getElementById('text_total_price').value = current_price + item_price;
+										document.getElementById('label_total_price').textContent = 'Rs. ' + (current_price+item_price);
+									} ">
+									<i class="fa fa-plus"></i>
+								</div>
+								<!--
+								{% if item[2] == '1' %}
+								<input type="submit" name="button_subscribe_{{item[-1]}}" value="Subscribe" class="w3-button w3-blue w3-round-large" />
+								{% endif %}
+								-->
+							</footer>
+						</div>
+					</div>
+					{% endif %}
+				{% endfor %}
+				{% set _ =categorized_menu.pop("Our Speciality", None) %}
+			</div>
+		{% endif %}
+		<div class="w3-center w3-xxlarge w3-text-blue w3-light-grey">Menu</div>
 		{% for category, menu in categorized_menu.items() %}
 			<div class="w3-container w3-border-bottom w3-margin">
 				<div class="w3-xlarge">{{category}}</div>
@@ -99,6 +147,7 @@
 		<div class="w3-container w3-padding-large w3-bottombar" style="text-align: center; display: flex; align-items: center; justify-content: center;">
 			<label id="label_total_price" class="w3-xlarge w3-margin-right">Rs. 0</label>
 			<input type="text" id="text_total_price" name="text_total_price" value="0" hidden required/>
+			<div class=" w3-container w3-text-grey">(Payment is to be done by the restaurant/mess)</div>
 			<input type="button" name="button_order" value="Buy" class="w3-button w3-xlarge w3-hover-green w3-red w3-round w3-large w3-margin-left" 
 			onclick="
 			var total_price = parseInt(document.getElementById('text_total_price').value);
@@ -117,4 +166,16 @@
 			Tags: {% for tag in restaurant.tags.split(", ") %}
 					<a href="/search?text_query_name={{tag}}" class=" w3-button w3-red w3-round-large w3-padding-small w3-medium">{{tag}}</a>
 				{% endfor %}
+{% if restaurant.images != [] %}
+	<script type="text/javascript">
+		function showImage(element) {
+			document.getElementById("image_modal_img").src = element.src;
+			console.log(element.src);
+			document.getElementById("image_modal").style.display = "block";
+		}
+	</script>
+	<div id="image_modal" class="w3-modal w3-animate-zoom" onclick="this.style.display='none'">
+	  <img class="w3-modal-content" id ="image_modal_img" src="" />
+	</div>
+{% endif %}
 {% endblock %}

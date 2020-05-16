@@ -4,13 +4,14 @@
 	<p>{{ login_status }}</p>
 	<div class="w3-container">
 		<h3>{{ label_text }}</h3>
-		<form method="post" class="w3-container">
+		<!--<form method="post" class="w3-container">-->
 			<p>
 				<label>Email:</label>
 				<input type="text" class="w3-input" name="text_email" value="{{ email }}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"/>
 			</p>
 			<p>
-				<input type="submit" class="w3-button w3-blue" name="button_send_email" value="Send reset key to email"/>
+				<input type="button" class="w3-button w3-blue" name="button_send_email" value="Send reset key to email" disabled/>
+				<span class="w3-text-red">(Heroku implementation pending)</span>
 			</p>
 			{% if allow_key %}
 				<p>
@@ -25,6 +26,6 @@
 					<input type="submit" class="w3-button w3-green" name="button_submit" />
 				</p>
 			{% endif %}
-		</form>
+		<!--</form>-->
 	</div>
 {% endblock %}
