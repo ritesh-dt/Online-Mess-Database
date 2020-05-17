@@ -6,6 +6,10 @@
 {% block content %}
 	{% if subscribed_list %}
 		<div class="w3-container">
+		<div class="w3-container w3-margin-top">
+			<span class="w3-xlarge">Your orders for {{restaurant.name }}</span>
+			<a href="/user/subscriptions" class="w3-button w3-light-blue w3-right w3-mobile">View all your orders/meals</a>
+		</div>
 		{% for restaurant in subscribed_list %}
 		<div class="w3-third">
 			<div class="w3-card w3-round-large w3-margin w3-hover-shadow">
@@ -18,10 +22,10 @@
 							{{order[0]}} &times;{{order[1]}}
 						</div>
 					{% endfor %}
-					<h3 class="w3-text-green">Total: Rs. {{restaurant[2]}}</h3>
+					<h3 class="w3-text-acp-mid-green">Total: Rs. {{restaurant[2]}}</h3>
 				</div>
 				<footer class="w3-container">
-					<div class="w3-text-blue w3-light-grey w3-round w3-padding w3-right-align w3-xlarge">Coupon code - {{restaurant[4]}}</div>
+					<div class="w3-text-dark-blue w3-light-grey w3-round w3-padding w3-right-align w3-xlarge">Coupon code - {{restaurant[4]}}</div>
 					<div class="w3-text-red w3-small w3-margin-top w3-margin-bottom">Valid till {{ restaurant[3] }}</div>
 				</footer>
 			</div>
@@ -51,7 +55,7 @@
 						<div class="w3-card w3-round-large w3-margin w3-hover-shadow">
 							<div class="w3-container w3-padding">
 								<div class="w3-large w3-twothird">{{ item[0] }}</div>
-								<div class="w3-text-green w3-right w3-large w3-rest">Rs. {{ item[1]}}</div>
+								<div class="w3-text-acp-mid-green w3-right w3-large w3-rest">Rs. {{ item[1]}}</div>
 							</div>
 							<footer class="w3-container">
 								<div class="w3-button w3-border w3-content w3-margin-bottom" onclick="
@@ -103,7 +107,7 @@
 						<div class="w3-card w3-round-large w3-margin w3-hover-shadow">
 							<div class="w3-container w3-padding">
 								<div class="w3-large w3-twothird">{{ item[0] }}</div>
-								<div class="w3-text-green w3-right w3-large w3-rest">Rs. {{ item[1]}}</div>
+								<div class="w3-text-acp-mid-green w3-right w3-large w3-rest">Rs. {{ item[1] }}</div>
 							</div>
 							<footer class="w3-container">
 								<div class="w3-button w3-border w3-content w3-margin-bottom" onclick="
@@ -144,11 +148,10 @@
 				{% endfor %}
 			</div>
 		{% endfor %}
-		<div class="w3-container w3-padding-large w3-bottombar" style="text-align: center; display: flex; align-items: center; justify-content: center;">
+		<div class="w3-container w3-padding-large" style="text-align: center; display: flex; align-items: center; justify-content: center;">
 			<label id="label_total_price" class="w3-xlarge w3-margin-right">Rs. 0</label>
 			<input type="text" id="text_total_price" name="text_total_price" value="0" hidden required/>
-			<div class=" w3-container w3-text-grey">(Payment is to be done by the restaurant/mess)</div>
-			<input type="button" name="button_order" value="Buy" class="w3-button w3-xlarge w3-hover-green w3-red w3-round w3-large w3-margin-left" 
+			<input type="button" name="button_order" value="Buy" class="w3-button w3-xlarge w3-hover-green w3-sienna w3-round w3-large w3-margin-left" 
 			onclick="
 			var total_price = parseInt(document.getElementById('text_total_price').value);
 			if (total_price > 0)
@@ -156,6 +159,7 @@
 				document.getElementById('order_form').submit(); 
 			}" />
 		</div>
+		<div class=" w3-container w3-text-grey w3-center">(Payment is to be done at the restaurant/mess)</div>
 		</form>
 	</div>
 	
@@ -164,7 +168,7 @@
 			Phone: {{restaurant.phone}}<br/>
 			Timing: from {{restaurant.opening_timing}} to {{restaurant.closing_timing}}<br/>
 			Tags: {% for tag in restaurant.tags.split(", ") %}
-					<a href="/search?text_query_name={{tag}}" class=" w3-button w3-red w3-round-large w3-padding-small w3-medium">{{tag}}</a>
+					<a href="/search?text_query_name={{tag}}" class=" w3-button w3-sienna w3-round-large w3-padding-small w3-medium">{{tag}}</a>
 				{% endfor %}
 {% if restaurant.images != [] %}
 	<script type="text/javascript">
@@ -174,7 +178,7 @@
 			document.getElementById("image_modal").style.display = "block";
 		}
 	</script>
-	<div id="image_modal" class="w3-modal w3-animate-zoom" onclick="this.style.display='none'">
+	<div id="image_modal" class="w3-modal w3-animate-zoom w3-hide-small" onclick="this.style.display='none'">
 	  <img class="w3-modal-content" id ="image_modal_img" src="" />
 	</div>
 {% endif %}

@@ -1,0 +1,37 @@
+
+#initiative{
+	 font-size: 40px;
+}
+
+#ever{
+		margin-left: 200px;
+		margin-right: 200px
+	}
+#online{
+	font-size: 50px
+}
+
+#unlike{
+	margin-left: 200px; margin-right: 200px
+}
+
+@media only screen and (max-width: 620px) {
+	#initiative{
+		font-size: 15px;
+	}
+
+	#ever{
+		margin-left: 20px;
+		margin-right: 20px;
+		margin-top: 10vh;
+	}
+
+	#online{
+	font-size: 50px
+	}
+
+	#unlike{
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+}

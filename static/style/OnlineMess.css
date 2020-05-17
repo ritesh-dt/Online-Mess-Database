@@ -4,6 +4,9 @@
   padding-right: 50px;
   font-size: 20px;
 }
+
+
+
 .home-header {
    	 width: 100%; height: 100vh;
 	background-repeat: no-repeat;
@@ -19,15 +22,6 @@
 
 .home-header.masthead .post-heading .meta a {
   color: #fff;
-}
-
-@media only screen and (min-width: 768px) {
-  .home-header.masthead .post-heading h1 {
-    font-size: 55px;
-  }
-  .home-header.masthead .post-heading .subheading {
-    font-size: 30px;
-  }
 }
 
 #menu, #gallery, #team {
@@ -351,4 +345,43 @@ button:hover {
 
 #myBtn:hover {
   background-color: #555;
+}
+
+#welcome{
+  margin-top: 25vh;
+  font-family:Times New Roman,serif;letter-spacing: 3px;
+}
+
+@media only screen and (max-width: 620px) {
+  #welcome{
+    font-family:Times New Roman,serif;
+    margin-top: 25vh;
+    font-size: 12px
+  }
+
+  #place{
+    margin-top: 10vh;
+    font-size: 30px
+  }
+  #earn{
+     margin-top: 5vh;
+     font-size: 20px
+  }
+  #what{
+      font-size: 20px
+  }
+
+  #home_text_box{
+    color: #808080;
+   
+    padding-left: 00px;
+    padding-right: 00px;
+  
+    font-size: 15px;
+
+  }
+  #learn{
+    size: 10px;
+  }
+
 }

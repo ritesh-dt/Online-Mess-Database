@@ -7,8 +7,8 @@
 			Account Status: {% if verified %}
 								Verified
 							{% else %}
-								Not verified
-								<input type="button" class="w3-button w3-round w3-blue w3-margin"name="button_verify" value="Send verification email" disabled />
+								<span>Not verified</span>
+								<input type="button" class="w3-button w3-mobile w3-round w3-blue"name="button_verify" value="Send verification email" disabled />
 								<span class="w3-text-red">(Heroku implementation pending)</span>
 							{% endif %}
 		</p>
@@ -18,21 +18,17 @@
 	<div class="w3-third">
 		<div class="w3-card w3-round-large w3-margin w3-hover-shadow">
 			<div class="w3-container">
-				<h3 class="w3-xlarge">{{restaurant[0].name}}
-
-					<div class="w3-text-green w3-right">Rs. {{restaurant[2]}}</div> 
-
-				</h3>
+				<h3 class="w3-xlarge">{{restaurant[0].name}}</h3>
 
 				{% for order in restaurant[1] %}
 					<div class="w3-text-black w3-large">
 						{{order[0]}} &times;{{order[1]}}
 					</div>
 				{% endfor %}
-				<h3 class="w3-text-green">Rs. {{restaurant[2]}}</h3>
+				<h3 class="w3-text-acp-mid-green">Rs. {{restaurant[2]}}</h3>
 			</div>
 			<footer class="w3-container">
-				<div class="w3-text-blue w3-light-grey w3-round w3-padding w3-right-align w3-xlarge">Coupon code - {{restaurant[4]}}</div>
+				<div class="w3-text-dark-blue w3-light-grey w3-round w3-padding w3-right-align w3-xlarge">Coupon code - {{restaurant[4]}}</div>
 				<div class="w3-text-red w3-small w3-margin-top w3-margin-bottom">Valid till {{ restaurant[3] }}</div>
 			</footer>
 		</div>
@@ -40,7 +36,7 @@
 	{% endfor %}
 
 </div>
-<button class="w3-bar-item w3-button w3-bottom w3-hover-green w3-yellow" onclick="open_modal('next_modal')">What's Next !</button>
+<button class="w3-bar-item w3-button w3-bottom w3-hover-acp-mid-green w3-sienna" onclick="open_modal('next_modal')">What's Next !</button>
 
 <div id="next_modal" class="w3-modal" style="display: none; position: fixed;">
 	<div class="w3-modal-content">
@@ -79,7 +75,7 @@
 					</div>	
 				</div>		
 			</div>
-			<div class="w3-padding w3-pale-yellow w3-border-yellow w3-leftbar w3-rightbar w3-margin-top">
+			<div class="w3-padding w3-light-blue w3-border-dark-blue w3-leftbar w3-rightbar w3-margin-top">
 				Special thanks to Rishikesh, Abhay and Vishal who helped us along the way!!
 			</div>
 		</div>

@@ -251,9 +251,25 @@ hr{border:0;border-top:1px solid #eee;margin:20px 0}
 .w3-text-acp-blue,.w3-hover-text-acp-blue:hover{color:#34B7F1!important}
 .w3-border-acp-blue,.w3-hover-border-acp-blue:hover{border-color:#34B7F1!important}
 
-.w3-acp-grey,.w3-hover-acp-grey:hover{color:#000!important;background-color:#ECE5DD!important}
-.w3-text-acp-grey,.w3-hover-text-acp-grey:hover{color:#ECE5DD!important}
-.w3-border-acp-grey,.w3-hover-border-acp-grey:hover{border-color:#ECE5DD!important}
+.w3-platinum,.w3-hover-platinum:hover{color:#000!important;background-color:#EAEAEA!important}
+.w3-text-platinum,.w3-hover-text-platinum:hover{color:#EAEAEA!important}
+.w3-border-platinum,.w3-hover-border-platinum:hover{border-color:#EAEAEA!important}
+
+.w3-sienna,.w3-hover-sienna:hover{color:#FFF!important;background-color:#DD6E42!important}
+.w3-text-sienna,.w3-hover-text-sienna:hover{color:#DD6E42!important}
+.w3-border-sienna,.w3-hover-border-sienna:hover{border-color:#DD6E42!important}
+
+.w3-light-camel,.w3-hover-light-camel:hover{color:#000!important;background-color:#E8DAB2!important}
+.w3-text-light-camel,.w3-hover-text-light-camel:hover{color:#E8DAB2!important}
+.w3-border-light-camel,.w3-hover-border-light-camel:hover{border-color:#E8DAB2!important}
+
+.w3-dark-blue,.w3-hover-dark-blue:hover{color:#FFF!important;background-color:#4F6D7A!important}
+.w3-text-dark-blue,.w3-hover-text-dark-blue:hover{color:#4F6D7A!important}
+.w3-border-dark-blue,.w3-hover-border-dark-blue:hover{border-color:#4F6D7A!important}
+
+.w3-light-blue,.w3-hover-light-blue:hover{color:#000!important;background-color:#C0D6DF!important}
+.w3-text-light-blue,.w3-hover-text-light-blue:hover{color:#C0D6DF!important}
+.w3-border-light-blue,.w3-hover-border-light-blue:hover{border-color:#C0D6DF!important}
 
 @font-face {font-family: 'vegetarian';
 src:url('http://static.sasongsmat.nu/fonts/vegetarian.eot?53ylxw');

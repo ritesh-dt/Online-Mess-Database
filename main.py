@@ -225,6 +225,9 @@ def signup(next, id=None):
 
 		db.session.add(UsersDB(first_name=text_first_name, last_name=text_last_name, email=text_email, password=bcrypt.hashpw(text_password.encode(), bcrypt.gensalt()), account_type=radio_account_type, verified=0b0, restaurant=-1))
 		db.session.commit()
+		flash("Account registered successfully!!", "success")
+		if radio_account_type == "Business":
+			flash("Please fill in our restaurant details at 'Manage your business'")
 
 		currentUser = UsersDB.query.filter_by(email=text_email).first()
 		session["user"] = currentUser.email
@@ -337,7 +340,7 @@ def restaurant(restaurant_id):
 								bill.active = 0b0
 								bill.coupon = ""
 								db.session.commit()
-								flash(f"{restaurant.name} - Subscription expired on {end_date.strftime('%a, %d %b %Y')}", "error")
+								flash(f"{restaurant.name} - Order expired on {end_date.strftime('%a, %d %b %Y')}", "error")
 								continue
 							bill_orders = OrdersDB.query.filter_by(bill_id=bill.id).all()
 							items = []
@@ -368,7 +371,10 @@ def restaurant(restaurant_id):
 				for key in request.form.keys():
 					if key != "text_total_price" and int(request.form[key]) > 0:
 						item_index = int(key.split("_")[-1])
-						item_name, item_price = menu[item_index][:2] 
+						if item_index == 11:
+							item_name, item_price = currentRest.main_menu_name, currentRest.main_menu_price
+						else:
+							item_name, item_price = menu[item_index][:2] 
 						item_count = int(request.form[key])
 						#print(item_name, item_count)
 
@@ -395,7 +401,8 @@ def restaurant(restaurant_id):
 		#print(categorized_menu)
 		return render_template("restaurant.html", restaurant=currentRest, logged_in=loggedIn, categorized_menu=categorized_menu, subscribed_list=subscribed_list)
 	else:
-		return render_template("search.html", logged_in=loggedIn)
+		flash("Restaurant closed or no longer available", "error")
+		return redirect(url_for("search"))
 
 @app.route("/user/subscriptions", methods=["POST", "GET"])
 def subscriptions():
@@ -431,7 +438,7 @@ def subscriptions():
 						bill.active = 0b0
 						bill.coupon = ""
 						db.session.commit()
-						flash(f"{restaurant.name} - Subscription expired on {end_date.strftime('%a, %d %b %Y')}", "error")
+						flash(f"{restaurant.name} - Order expired on {end_date.strftime('%a, %d %b %Y')}", "error")
 						continue
 					bill_orders = OrdersDB.query.filter_by(bill_id=bill.id).all()
 					items = []
@@ -460,8 +467,8 @@ def user_restaurant():
 		return redirect(url_for("subscriptions", logged_in=[session["username"], session["account_type"]]))
 	currentRest = RestaurantsDB.query.filter_by(owner=currentUser.id).first()
 	if not currentRest:
-		currentRest = {key: "" for key in ["name", "address", "phone",  "opening_timing","closing_timing", "tags"]}
-		list_menu = [("", "", "Other", 0) for i in range(15)]
+		currentRest = {key: "" for key in ["name", "address", "phone", "opening_timing", "closing_timing", "tags"]}
+		list_menu = [("", "", "Other", 0) for i in range(11)]
 		#list_menu[0] = ("", "", "Other", 1)
 	else:
 		list_menu = [tuple(item.split("~")) for item in currentRest.menu.split("| ")]
@@ -522,7 +529,8 @@ def user_restaurant():
 				text_menu = "| ".join([f"{name}~{price}~{category}" for name, price, category in zip(text_menu_names, text_menu_prices, dropdown_categories)])
 
 				if not RestaurantsDB.query.filter_by(owner=currentUser.id).first():
-					flash("Added your restaurant successfully!!!", "success")
+					flash("Register your restaurant successfully!!!", "success")
+					flash("Your restaurant will be verified by our administration and then it will be open for customer orders!", "error")
 					db.session.add(RestaurantsDB(name=text_name, address=text_address, phone=text_phone,  opening_timing=text_timing_opening, closing_timing=text_timing_closing, tags=text_tags, menu=text_menu, owner=currentUser.id,  vegetarian=checkbox_vegetarian, main_menu_name = main_menu_name, main_menu_price = main_menu_price, rating=None))
 					currentRest = RestaurantsDB.query.filter_by(owner=currentUser.id).first()
 				else:
@@ -602,7 +610,7 @@ def orders():
 								bill.active = 0b0
 								bill.coupon = ""
 								db.session.commit()
-								flash(f"{restaurant.name} - Subscription expired on {end_date.strftime('%a, %d %b %Y')}", "error")
+								flash(f"{restaurant.name} - Order expired on {end_date.strftime('%a, %d %b %Y')}", "error")
 								continue
 							
 							bill_orders = OrdersDB.query.filter_by(bill_id=bill.id).all()
