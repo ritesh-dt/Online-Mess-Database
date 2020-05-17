@@ -5,6 +5,9 @@
 	overflow: auto;
 	white-space: nowrap;
 }
+#carousel .image_tile {
+  display: inline-block;
+}
 
 #search_carousel {
   width: 100%;
@@ -13,10 +16,10 @@
   overflow: auto;
   white-space: nowrap;
 }
-
-#carousel .image_tile, #search_carousel .image_tile {
-	display: inline-block;
+#search_carousel .image_tile {
+  display: inline-block;
 }
+
 #mysub {
   background-color: #555;
   color: white;
