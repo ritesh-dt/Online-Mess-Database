@@ -1,6 +1,7 @@
 {% extends "base.html" %}
-{% block title %}Home{% endblock %}
+{% block title %}Explore{% endblock %}
 {% block css %}
+	<link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='style/restaurant.css') }}">
 {% endblock %}
 {% block content %}
 	<form method="get">
@@ -14,14 +15,20 @@
 	<div class="w3-container w3-padding-small">
 	{% for restaurant in query_result %}
 	<div class="{% if restaurant.images %}
-					w3-twothird
+					w3-half
 				{% else %}
 					w3-half
 				{% endif %}">
 		<div class="w3-card w3-margin w3-round-large w3-hover-shadow w3-platinum">
 			{% if restaurant.images %}
-				<div class="w3-left w3-hide-small w3-hide-medium">
-					<img src="{{url_for('send_image', filename=restaurant.images[0].image_name)}}" height="255px" class="w3-round-large" />
+				<div class="w3-center w3-dark-blue">
+					<div id="search_carousel" class="w3-center">
+					{% for img in restaurant.images[:5] %}
+						<div class="image_tile">
+							<img src="{{ url_for('send_image', filename=img.image_name) }}" alt="Image not found" height="255px"/>
+						</div>
+					{% endfor %}
+					</div>
 				</div>
 			{% endif %}
 			<div class="w3-container w3-rest">
@@ -31,19 +38,19 @@
 						<span class="vegetarianicon w3-right">⊡</span>
 					{% endif %}
 				</div>
-				<div class=" w3-large w3-right w3-round w3-padding w3-dark-blue w3-margin-right w3-margin-top">
-							<div class="w3-container w3-padding-small">
-								<span class="w3-left-align w3-small">Per thali
-								</span>
-								<br>
-								{{ restaurant.main_menu_price * 0.7}} Rs.
-								<br>
+				<div class=" w3-large w3-right w3-round w3-padding w3-dark-blue w3-margin-right w3-margin-top w3-hide-small">
+					<div class="w3-container w3-padding-small">
+						<span class="w3-left-align w3-small">Per Thali
+						</span>
+						<br>
+						Rs. {{ restaurant.main_menu_price * 0.7}}
+						<br>
 
-								<span style="text-decoration: line-through;" class="w3-small w3-center">
-									{{ restaurant.main_menu_price }} Rs.</span>
-								
-							</div>
-						</div>
+						<span style="text-decoration: line-through;" class="w3-small w3-center">
+							Rs. {{ restaurant.main_menu_price }}</span>
+						
+					</div>
+				</div>
 				<div class="w3-padding w3-text-black">
 					{{restaurant.address}}<br/>
 					Hygiene Rating:<br/>
@@ -54,8 +61,17 @@
 						<i class="fa fa-star-o w3-text-acp-mid-green"></i>
 					{% endfor %}
 					<br/>
+					<div class=" w3-large w3-round w3-padding w3-dark-blue w3-margin-right w3-margin-top w3-margin-bottom w3-hide-large w3-hide-medium w3-mobile">
+						<div class="w3-container w3-padding-small">
+							Per Thali
+							Rs. {{ restaurant.main_menu_price * 0.7}}
+							<span style="text-decoration: line-through;" class="w3-small w3-center">
+								Rs. {{ restaurant.main_menu_price }}</span>
+							
+						</div>
+					</div>
 					<div class="w3-left-align">
-						<br/><br/><br/>
+						<span class="w3-hide-small"><br/><br/><br/></span>
 						<span class="w3-hide-small">
 							{% for tag in restaurant.tags.split(", ")[:3] %}
 								<a href="/search?text_query_name={{tag}}" class=" w3-sienna w3-round-large w3-padding-small w3-button">{{tag}}</a>
