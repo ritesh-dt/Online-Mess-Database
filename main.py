@@ -393,9 +393,10 @@ def restaurant(restaurant_id):
 			menu.append(item.split("~")+[index])
 		categorized_menu = {}
 		for item in menu:
-			if item[-2] not in categorized_menu:
-				categorized_menu[item[-2]] = []
-			categorized_menu[item[-2]].append(item)
+			if item[:2] != ["", ""]:
+				if item[-2] not in categorized_menu:
+					categorized_menu[item[-2]] = []
+				categorized_menu[item[-2]].append(item)
 		if currentRest.main_menu_name and currentRest.main_menu_price:
 			categorized_menu["Our Speciality"] = [[currentRest.main_menu_name, currentRest.main_menu_price, "Our Speciality", 11]]
 		#print(categorized_menu)
@@ -468,7 +469,7 @@ def user_restaurant():
 	currentRest = RestaurantsDB.query.filter_by(owner=currentUser.id).first()
 	if not currentRest:
 		currentRest = {key: "" for key in ["name", "address", "phone", "opening_timing", "closing_timing", "tags"]}
-		list_menu = [("", "", "Other", 0) for i in range(11)]
+		list_menu = [("", "", "Other") for i in range(11)]
 		#list_menu[0] = ("", "", "Other", 1)
 	else:
 		list_menu = [tuple(item.split("~")) for item in currentRest.menu.split("| ")]
