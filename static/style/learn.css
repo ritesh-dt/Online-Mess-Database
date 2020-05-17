@@ -14,7 +14,24 @@
 #unlike{
 	margin-left: 200px; margin-right: 200px
 }
+#also{
+		margin-left: 200px;
+		margin-right: 200px;
+	}
+	#know{
+		margin-left: 200px;
+		margin-right: 200px;
+	}
 
+	#we{
+		margin-left: 200px;
+		margin-right: 200px;
+	}
+
+	#have{
+		margin-left: 200px;
+		margin-right: 200px;
+	}
 @media only screen and (max-width: 620px) {
 	#initiative{
 		font-size: 15px;
@@ -35,6 +52,24 @@
 	}
 
 	#unlike{
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+	#also{
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+	#know{
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+
+	#we{
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+
+	#have{
 		margin-left: 20px;
 		margin-right: 20px;
 	}
