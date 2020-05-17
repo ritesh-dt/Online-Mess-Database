@@ -8,7 +8,7 @@
 			<input type="text" class="w3-input w3-third w3-border" name="text_query_name"placeholder="Search by name, dish or place" value="{{text_query}}" />
 		</div>
 		<div class="w3-container">
-			<button type="submit" class="w3-button w3-border w3-hover-green w3-mobile" name="button_submit">Search</button>
+			<button type="submit" class="w3-button w3-border w3-acp-mid-green w3-hover-acp-dark-green w3-mobile" name="button_submit">Search</button>
 		</div>
 	</form>
 	<div class="w3-container w3-padding-small">
@@ -18,10 +18,10 @@
 				{% else %}
 					w3-half
 				{% endif %}">
-		<div class="w3-card w3-margin w3-round-large w3-hover-shadow w3-sand">
+		<div class="w3-card w3-margin w3-round-large w3-hover-shadow w3-platinum">
 			{% if restaurant.images %}
 				<div class="w3-left w3-hide-small w3-hide-medium">
-					<img src="{{url_for('send_image', filename=restaurant.images[0].image_name)}}" height="232px" class="w3-round-large" />
+					<img src="{{url_for('send_image', filename=restaurant.images[0].image_name)}}" height="255px" class="w3-round-large" />
 				</div>
 			{% endif %}
 			<div class="w3-container w3-rest">
@@ -31,7 +31,7 @@
 						<span class="vegetarianicon w3-right">⊡</span>
 					{% endif %}
 				</div>
-				<div class=" w3-large w3-right w3-round w3-padding w3-blue w3-margin-right w3-margin-top">
+				<div class=" w3-large w3-right w3-round w3-padding w3-dark-blue w3-margin-right w3-margin-top">
 							<div class="w3-container w3-padding-small">
 								<span class="w3-left-align w3-small">Per thali
 								</span>
@@ -46,21 +46,27 @@
 						</div>
 				<div class="w3-padding w3-text-black">
 					{{restaurant.address}}<br/>
-					Hygiene Rating:
+					Hygiene Rating:<br/>
 					{% for star in range(restaurant.rating|int) %}
-						<i class="fa fa-star w3-text-green"></i>
+						<i class="fa fa-star w3-text-acp-mid-green"></i>
 					{% endfor %}
 					{% for star in range(5-restaurant.rating|int) %}
-						<i class="fa fa-star-o w3-text-green"></i>
+						<i class="fa fa-star-o w3-text-acp-mid-green"></i>
 					{% endfor %}
 					<br/>
 					<div class="w3-left-align">
-						
 						<br/><br/><br/>
-						{% for tag in restaurant.tags.split(", ")[:3] %}
-							<a href="/search?text_query_name={{tag}}" class=" w3-red w3-round-large w3-padding-small w3-button">{{tag}}</a>
-						{% endfor %}
-						<a href="/restaurant/{{restaurant.id}}" class="w3-button w3-right w3-green w3-round w3-padding w3-margin-bottom">View Menu</a>
+						<span class="w3-hide-small">
+							{% for tag in restaurant.tags.split(", ")[:3] %}
+								<a href="/search?text_query_name={{tag}}" class=" w3-sienna w3-round-large w3-padding-small w3-button">{{tag}}</a>
+							{% endfor %}
+						</span>
+						<span class="w3-hide-medium w3-hide-large">
+							{% for tag in restaurant.tags.split(", ")[:1] %}
+								<a href="/search?text_query_name={{tag}}" class=" w3-sienna w3-round-large w3-padding-small w3-button">{{tag}}</a>
+							{% endfor %}
+						</span>
+						<a href="/restaurant/{{restaurant.id}}" class="w3-button w3-right w3-acp-mid-green w3-round w3-padding w3-margin-bottom">View Menu</a>
 					</div>
 				</div>
 			</div>

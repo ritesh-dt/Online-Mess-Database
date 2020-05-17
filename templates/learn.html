@@ -1,54 +1,58 @@
 {% extends "base.html" %}
 {% block title %}Learn more{% endblock %}
+{% block css %}
+	<link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='style/learn.css') }}">
+	<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,700;0,900;1,200;1,300&display=swap" rel="stylesheet"> 
+{% endblock %}
 {% block content %}
-<link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,700;0,900;1,200;1,300&display=swap" rel="stylesheet"> 
-	<div class="w3-panel w3-leftbar w3-rightbar w3-border-acp-mid-green w3-center w3-padding w3-margin-bottom">
-		<div style="font-family: 'Titillium Web', sans-serif" class="w3-xxxlarge w3-margin-bottom">Online-Mess</div>
-		<br>
-		<strong style="font-family: 'Titillium Web', sans-serif; font-size: 40px">An initiave By the students for the students</strong>
+
+	<div class="w3-panel w3-border-acp-mid-green w3-center w3-padding w3-margin-bottom" style="font-family: 'Titillium Web', sans-serif;	">
+		<div id="online">Online Mess</div>
+		<strong id="initiative">An initiave by the students for the students</strong>
 		
-		<div style="font-family: 'Titillium Web', sans-serif; color: grey; margin-left: 200px; margin-right: 200px">Ever thought about getting free from that nausiating atmosphere of your mess ? Ever found it unfair when you pay for the meal of the entire month just to get few percents of discount ? This is where concept of Online-Mess arises !<br> This is a platform have listed number of messes that too completely verified on the basis of the quality of food they serve, Hygiene level at the cooking site and affordability especially in perspective of students.</div>
+		<div id="ever" style="color: grey;">Ever thought about breaking free from the nauseating atmosphere of your daily mess? Ever found it unfair when you have to pay for an entire month's subscription just to get few percents of discount? This is where our concept of Online Mess arises! <br> Here we have listed a number of messes which cover a variety of cuisines and are verified on the basis of the food quality, hygiene level and affordability especially from perspective of students.</div>
 		<br>
 		<br>
 		<br>
 		<br>
-		<strong style="font-family: 'Titillium Web', sans-serif; font-size: 40px">Pay only for one at a time</strong>
-		<div style="font-family: 'Titillium Web', sans-serif; color: grey; margin-left: 200px; margin-right: 200px">Unlike messes, We are charging you only for the meal that you have chosen at a particular time. So Henceforth, You need not have to pay for the month's meal to get it at a affordable price.</div>
+		<strong style="font-size: 40px">Pay for one item at a time</strong>
+		<div id="unlike" style="color: grey">Unlike traditional messes subscriptions, we are charging you only for the meal that you have chosen and without any sort of weekly-monthly plan or restriction. So, you don't have to pay for a monthly subscription to get it at a affordable price.</div>
 
 		<br>
 		<br>
 		<br>
 		<br>
 
-		<strong style="font-family: 'Titillium Web', sans-serif; font-size: 40px">Don't compromise for hygiene henceforth</strong>
-		<div style="font-family: 'Titillium Web', sans-serif; color: grey; margin-left: 200px; margin-right: 200px">We guarantee for the cleanlinees and hygiene in which your meal is cooked. Each and every mess listed on this platform have been verified in terms of the hygiene level at the cooking site.</div>
+		<strong style="font-size: 40px">Henceforth, don't compromise for hygiene</strong>
+		<div id="we" style="color: grey;">We guarantee the cleanliness and hygiene level of each of partner restaurant/messes. Each and every mess listed on this platform have been inspected and verified in terms of the hygiene level at the cooking site.</div>
 
 		<br>
 		<br>
 		<br>
 		<br>
 
-		<strong style="font-family: 'Titillium Web', sans-serif; font-size: 40px">Earn great discounts</strong>
-		<div style="font-family: 'Titillium Web', sans-serif; color: grey; margin-left: 200px; margin-right: 200px">We have made sure that users of this platform will get the items at the price at which that particular mess serves it to their daily customers. We are also giving additional discounts. You can even verify this fact by visiting particular mess itself.</div>
+		<strong style="font-size: 40px">Earn great discounts</strong>
+		<div id="have" style="color: grey;">We assure you that our item listing is always the same as the offline listings of the restaurant/mess. We are also giving additional discounts. You can even verify this fact by visiting particular mess itself</div>
 
 		<br>
 		<br>
 		<br>
 		<br>
 
-		<strong style="font-family: 'Titillium Web', sans-serif; font-size: 40px">Try variety of food</strong>
-		<div style="font-family: 'Titillium Web', sans-serif; color: grey; margin-left: 200px; margin-right: 200px">We know that one gets bored of the same taste everyday. So this platform have listed number of messes that can be accessed at any time.</div>
+		<strong style="font-size: 40px">Experience a variety of cuisines</strong>
+		<div id="know" style="color: grey;">We know that eating the same food or cuisine everyday is boring. So we've made sure that you will always have something different to try out</div>
 
 		<br>
 		<br>
 		<br>
 		<br>
 
-		<strong style="font-family: 'Titillium Web', sans-serif; font-size: 40px">Resgiter your mess here</strong>
-		<div style="font-family: 'Titillium Web', sans-serif; color: grey; margin-left: 200px; margin-right: 200px">We also care for the messes ! We have created an interface on this website for mess owners where they can register their mess on this platform. After that particular mess will be assigned hygiene rating after the verification. This is how messes are listed on this platform !</div>
+		<strong style="font-size: 40px">Register your mess</strong>
+		<div id="also" style="color: grey;">We also care for the messes! We have created an interface for mess owners to register their mess using a 'Business' account. After that, the particular mess will be assigned a hygiene rating after the inspection. This is how messes are listed on this platform.</div>
 
 
-		<h1>That's all guys ! Lets start your journey by exploring the messes in your city.</h1>
+		<div style="margin-top: 10vh; font-size: 40px"><b>Lets start your journey by exploring the messes in your city.</b></div>
+</div>
 		
 	
 	
