@@ -18,7 +18,7 @@
 	{% if request.path == '/home' %}
 		w3-white
 	{% else %}
-		w3-dark-blue
+		w3-acp-dark-green
 	{% endif %}
 	"style="height: 11vh;display:block;justify-content:space-between;overflow: hidden;align-items: center;text-transform: uppercase;padding: 20px 10px !important;">
 	<p class="w3-bar-item w3-large" style="margin: 0">
@@ -55,7 +55,7 @@
 </div>
 
 <!-- Vertical Navigation Bar -->
-<div id="vertical_nav" class="w3-bar-block navbar w3-white w3-hide w3-hide-large w3-hide-medium w3-border" style="z-index: 100;">
+<div id="vertical_nav" class="w3-bar-block navbar w3-white w3-hide w3-hide-large w3-hide-medium w3-border" style="z-index: 99;">
 
 	<a href="/home" class="w3-bar-item w3-button w3-border-bottom">Home</a>
 	<a href="/search?text_query_name=" class="w3-bar-item w3-button w3-border-bottom">Explore</a>
@@ -80,12 +80,12 @@
 			</div>
 		</div>
 	{% else %}
-		<button class="w3-bar-item w3-button w3-right w3-hover-dark-blue w3-light-blue w3-border-dark-blue w3-border-bottom" onclick="open_modal('signup_modal')">Register</a></button>
+		<button class="w3-bar-item w3-button w3-right w3-hover-acp-dark-green w3-acp-mid-green w3-border-acp-dark-green w3-border-bottom" onclick="open_modal('signup_modal')">Register</a></button>
 		<button class="w3-bar-item w3-button w3-right  w3-hover-acp-dark-green w3-acp-mid-green" onclick="open_modal('login_modal')">Login</a></button>
 	{% endif %}
 </div>
 
-<main >
+<main>
 
 	{% with messages = get_flashed_messages(with_categories=True) %}
 		{% if messages %}
@@ -97,7 +97,7 @@
 						w3-green
 					{% else %}
 						w3-blue
-					{% endif %} " style="z-index: -1;">
+					{% endif %} ">
 					<span class="w3-button w3-display-topright w3-hover-none" onclick="this.parentElement.style.display='none'">&times;</span>
 					<p>{{ msg }}</p>
 				</div>
@@ -123,7 +123,7 @@
 		
 			<footer class="w3-container w3-padding">
 				<button type="submit" class="w3-button w3-acp-mid-green w3-round w3-hover-acp-dark-green" >Login</button>
-				<a href="forgot" class="w3-button w3-sienna w3-right w3-round">Forgot Password</a>
+				<a href="forgot" class="w3-button w3-red w3-right w3-round">Forgot Password</a>
 			</footer>
 			</form>
 		</div>
