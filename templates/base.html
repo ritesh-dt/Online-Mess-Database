@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">	-->
 	<link rel="stylesheet" href="{{ url_for('static', filename='style/w3css.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>{% block title %}{% endblock %} | OnlineMess</title>
+    <title>{% block title %}{% endblock %} | Online Mess</title>
 	{% block css %}{% endblock %}
 </head>
 <body>
@@ -22,17 +22,15 @@
 	{% endif %}
 	"style="height: 11vh;display:block;justify-content:space-between;overflow: hidden;align-items: center;text-transform: uppercase;padding: 20px 10px !important;">
 	<p class="w3-bar-item w3-large" style="margin: 0">
-		<b style="font-family: 'Balsamiq Sans', serif;">OnlineMess</b>
+		<b style="font-family: 'Balsamiq Sans', serif;">Online Mess</b>
 	</p>
 	<a href="/home" class="w3-bar-item w3-button w3-hide-small">Home</a>
 	<a href="/search?text_query_name=" class="w3-bar-item w3-button w3-hide-small">Explore</a>
 	<a href="/learn" class="w3-bar-item w3-button w3-hide-small">Learn More</a>
-	{% if logged_in %}
-		{% if logged_in[1] == "Regular" %}
-			<a href="/user/subscriptions" class="w3-bar-item w3-button w3-hide-small">My Meals</a>
-		{% elif logged_in[1] == "Business" %}
-			<a href="/user/orders" class="w3-bar-item w3-button w3-hide-small">My Orders</a>	
-		{% endif %}
+	{% if logged_in[1] == "Regular" %}
+		<a href="/user/subscriptions" class="w3-bar-item w3-button w3-hide-small">My Meals</a>
+	{% elif logged_in[1] == "Business" %}
+		<a href="/user/orders" class="w3-bar-item w3-button w3-hide-small">My Orders</a>	
 	{% endif %}
 	<button class="w3-bar-item w3-button w3-right w3-hide-medium w3-hide-large w3-large" onclick="showVerticalNav()">&#9776;</button>
 
@@ -67,14 +65,11 @@
 	<a href="/home" class="w3-bar-item w3-button w3-border-bottom">Home</a>
 	<a href="/search?text_query_name=" class="w3-bar-item w3-button w3-border-bottom">Explore</a>
 	<a href="/learn" class="w3-bar-item w3-button w3-border-bottom">Learn More</a>
-	{% if logged_in %}
-		{% if logged_in[1] == "Regular" %}
-			<a href="/user/subscriptions" class="w3-bar-item w3-button w3-border-bottom">My Meals</a>
-		{% elif logged_in[1] == "Business" %}
-			<a href="/user/orders" class="w3-bar-item w3-button w3-border-bottom">My Orders</a>	
-		{% endif %}
+	{% if logged_in[1] == "Regular" %}
+		<a href="/user/subscriptions" class="w3-bar-item w3-button w3-border-bottom">My Meals</a>
+	{% elif logged_in[1] == "Business" %}
+		<a href="/user/orders" class="w3-bar-item w3-button w3-border-bottom">My Orders</a>	
 	{% endif %}
-
 	{% if logged_in[2] == "admin@onlinemess.com" %}
 		<a href="/admin" class="w3-bar-item w3-button w3-border-bottom">Administration</a>
 	{% endif %}
