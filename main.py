@@ -409,7 +409,7 @@ def restaurant(restaurant_id):
 def subscriptions():
 	global verification_codes
 	if not "user" in session:
-		flash("Please login first !", "failed")
+		flash("Please login first to see what's next !", "failed")
 		return redirect(url_for("logout"))
 
 	else:
