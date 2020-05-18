@@ -27,7 +27,13 @@
 	<a href="/home" class="w3-bar-item w3-button w3-hide-small">Home</a>
 	<a href="/search?text_query_name=" class="w3-bar-item w3-button w3-hide-small">Explore</a>
 	<a href="/learn" class="w3-bar-item w3-button w3-hide-small">Learn More</a>
-	<a href="/user/subscriptions" class="w3-bar-item w3-button w3-hide-small">My meals</a>
+	{% if logged_in %}
+		{% if logged_in[1] == "Regular" %}
+			<a href="/user/subscriptions" class="w3-bar-item w3-button w3-hide-small">My Meals</a>
+		{% elif logged_in[1] == "Business" %}
+			<a href="/user/orders" class="w3-bar-item w3-button w3-hide-small">My Orders</a>	
+		{% endif %}
+	{% endif %}
 	<button class="w3-bar-item w3-button w3-right w3-hide-medium w3-hide-large w3-large" onclick="showVerticalNav()">&#9776;</button>
 
 	{% if logged_in[2] == "admin@onlinemess.com" %}
@@ -61,7 +67,14 @@
 	<a href="/home" class="w3-bar-item w3-button w3-border-bottom">Home</a>
 	<a href="/search?text_query_name=" class="w3-bar-item w3-button w3-border-bottom">Explore</a>
 	<a href="/learn" class="w3-bar-item w3-button w3-border-bottom">Learn More</a>
-	<a href="/user/subscriptions" class="w3-bar-item w3-button w3-border-bottom">My meals</a>
+	{% if logged_in %}
+		{% if logged_in[1] == "Regular" %}
+			<a href="/user/subscriptions" class="w3-bar-item w3-button w3-border-bottom">My Meals</a>
+		{% elif logged_in[1] == "Business" %}
+			<a href="/user/orders" class="w3-bar-item w3-button w3-border-bottom">My Orders</a>	
+		{% endif %}
+	{% endif %}
+
 	{% if logged_in[2] == "admin@onlinemess.com" %}
 		<a href="/admin" class="w3-bar-item w3-button w3-border-bottom">Administration</a>
 	{% endif %}
