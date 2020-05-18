@@ -409,7 +409,9 @@ def restaurant(restaurant_id):
 def subscriptions():
 	global verification_codes
 	if not "user" in session:
+		flash("Please login first !", "failed")
 		return redirect(url_for("logout"))
+
 	else:
 		loggedIn = [session["username"], session["account_type"], session["user"]]
 	currentUser = UsersDB.query.filter_by(email=session["user"]).first()

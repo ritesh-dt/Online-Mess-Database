@@ -28,7 +28,7 @@
 				<h3 class="w3-text-green">Rs. {{restaurant[2]}}</h3>
 			</div>
 			<footer class="w3-container">
-				<div class="w3-text-blue w3-light-grey w3-round w3-padding w3-right-align w3-xlarge">Coupon code - {{restaurant[4]}}</div>
+				<div class="w3-text-blue w3-light-grey w3-round w3-padding w3-center w3-xlarge">Coupon code - {{restaurant[4]}}</div>
 				<div class="w3-text-red w3-small w3-margin-top w3-margin-bottom">Valid till {{ restaurant[3] }}</div>
 			</footer>
 		</div>
@@ -36,26 +36,56 @@
 	{% endfor %}
 
 </div>
-<button class="w3-bar-item w3-button w3-bottom w3-hover-green w3-yellow" onclick="open_modal('next_modal')">What's Next !</button>
+<button class="w3-bar-item w3-button w3-bottom w3-hover-green w3-yellow " onclick="open_modal('next_modal')">What's Next !</button>
 
 <div id="next_modal" class="w3-modal" style="display: none; position: fixed;">
 	<div class="w3-modal-content">
 		<header class="w3-container">
 			<span class="w3-display-topright w3-button" onclick="close_modal('next_modal')">&times;</span>
-			<div class="w3-large w3-margin-top">What's Next !</div>
+			<div class="w3-large w3-margin-top w3-center">What's Next !</div>
 		</header>
 		<div class="w3-container w3-padding w3-margin-bottom">
-			<div class="w3-large w3-margin-top">
-				This was just a demo website. We have not tied up with any of the messes registered on this website. But we are thinking of it. What do you think? Let us know about your experience with this website on our social media handles.
+			<div class="w3-large w3-margin-top w3-center">
+				This was just a demo website. We have not tied up with any of the messes registered on this website. But we are thinking of it. What do you think ? Let us know about your experience with this website on our social media handles.
 			</div>
 			<div class="w3-padding w3-acp-dark-green w3-border-acp-mid-green w3-leftbar w3-rightbar w3-margin-top ">
 				
 				
 				Developed by:
-				<div class="w3-container">
-					<div class="w3-row">
-						<div class="w3-col l3">Ritesh Thakur</div>
-						<div class="w3-col l4">
+				<div class="w3-container w3-hide-small w3-hide-medium">
+					<!-- <div class="w3-row"> -->
+						<div>Ritesh Thakur &emsp; and &emsp; Amey Thakur</div>
+						<div><a href="https://twitter.com/ritesh_dt" target="_blank"><i class="fa fa-twitter w3-xlarge"></i></a>
+								<a href="https://www.linkedin.com/in/ritesh-dt" target="_blank"><i class="fa fa-linkedin w3-xlarge"></i></a>
+								<a href="mailto:riteshdthakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
+								<a href="https://github.com/ritesh-dt" target="_blank"><i class="fa fa-github w3-xlarge"></i></a>&emsp; &emsp; &emsp; &emsp;
+
+								<a href="https://twitter.com/ameythakur9" target="_blank"><i class="fa fa-twitter w3-xlarge"></i></a>
+							<a href="https://www.linkedin.com/in/amey-thakur-54a030134" target="_blank"><i class="fa fa-linkedin w3-xlarge"></i></a>
+							<a href="mailto:amey36thakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
+							<a href="https://github.com/ameythakur-del" target="_blank"><i class="fa fa-github w3-xlarge"></i></a>	
+							</div>
+						</div>
+
+				<div class="w3-container w3-hide-large">
+					<div style="font-size: 16px">Ritesh Thakur &nbsp;and &nbsp;Amey Thakur</div>
+						<div><a href="https://twitter.com/ritesh_dt" target="_blank"><i class="fa fa-twitter w3-xlarge"></i></a>
+								<a href="https://www.linkedin.com/in/ritesh-dt" target="_blank"><i class="fa fa-linkedin w3-xlarge"></i></a>
+								<a href="mailto:riteshdthakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
+								<a href="https://github.com/ritesh-dt" target="_blank"><i class="fa fa-github w3-xlarge"></i></a>&emsp;&emsp;
+
+
+								<a href="https://twitter.com/ameythakur9" target="_blank"><i class="fa fa-twitter w3-xlarge"></i></a>
+							<a href="https://www.linkedin.com/in/amey-thakur-54a030134" target="_blank"><i class="fa fa-linkedin w3-xlarge"></i></a>
+							<a href="mailto:amey36thakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
+							<a href="https://github.com/ameythakur-del" target="_blank"><i class="fa fa-github w3-xlarge"></i></a>	
+
+
+
+
+
+
+						<!-- <div class="w3-col l4">
 								<a href="https://twitter.com/ritesh_dt" target="_blank"><i class="fa fa-twitter w3-xlarge"></i></a>
 								<a href="https://www.linkedin.com/in/ritesh-dt" target="_blank"><i class="fa fa-linkedin w3-xlarge"></i></a>
 								<a href="mailto:riteshdthakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
@@ -74,7 +104,7 @@
 							<a href="mailto:amey36thakur@gmail.com"><i class="fa fa-envelope w3-xlarge"></i></a>
 							<a href="https://github.com/ameythakur-del" target="_blank"><i class="fa fa-github w3-xlarge"></i></a>	
 						</div>
-					</div>	
+					</div>	 -->
 				</div>		
 			</div>
 			<div class="w3-padding w3-light-blue w3-border-dark-blue w3-leftbar w3-rightbar w3-margin-top">

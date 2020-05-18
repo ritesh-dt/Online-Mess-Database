@@ -8,7 +8,7 @@
 		<div class="w3-container">
 		<div class="w3-container w3-margin-top">
 			<span class="w3-xlarge">Your orders for {{restaurant.name }}</span>
-			<a href="/user/subscriptions" class="w3-button w3-blue w3-round w3-right w3-mobile">View all your orders/meals</a>
+			
 		</div>
 		{% for restaurant in subscribed_list %}
 		<div class="w3-third">
@@ -25,11 +25,12 @@
 					<h3 class="w3-text-green">Total: Rs. {{restaurant[2]}}</h3>
 				</div>
 				<footer class="w3-container">
-					<div class="w3-text-blue w3-light-grey w3-round w3-padding w3-right-align w3-xlarge">Coupon code - {{restaurant[4]}}</div>
+					<div class="w3-text-blue w3-light-grey w3-round w3-padding w3-center w3-xlarge">Coupon code - {{restaurant[4]}}</div>
 					<div class="w3-text-red w3-small w3-margin-top w3-margin-bottom">Valid till {{ restaurant[3] }}</div>
 				</footer>
 			</div>
 		</div>
+		<a href="/user/subscriptions" class="w3-button w3-blue w3-round w3-right w3-mobile w3-margin-bottom">View all your orders/meals</a>
 		{% endfor %}
 		</div>
 	{% endif %}

@@ -71,3 +71,10 @@
 #search{
   margin-left: 350px;
 }
+
+
+@media only screen and (max-width: 620px) {
+  #search{
+   margin-left: 0px
+  }
+}
