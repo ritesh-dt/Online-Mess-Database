@@ -36,6 +36,7 @@
 	{% else %}
 		<a href="/user/subscriptions" class="w3-bar-item w3-button w3-hide-small">My Meals</a>
 	{% endif %}
+	<a href="/next" class="w3-bar-item w3-button w3-hide-small">What's Next</a>
 	<button class="w3-bar-item w3-button w3-right w3-hide-medium w3-hide-large w3-large" onclick="showVerticalNav()">&#9776;</button>
 
 	{% if logged_in[2] == "admin@onlinemess.com" %}
@@ -78,7 +79,7 @@
 	{% else %}
 		<a href="/user/subscriptions" class="w3-bar-item w3-button w3-border-bottom">My Meals</a>
 	{% endif %}
-
+	<a href="/next" class="w3-bar-item w3-button w3-border-bottom">What's Next</a>
 	{% if logged_in[2] == "admin@onlinemess.com" %}
 		<a href="/admin" class="w3-bar-item w3-button w3-border-bottom">Administration</a>
 	{% endif %}
