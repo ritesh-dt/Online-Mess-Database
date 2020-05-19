@@ -666,5 +666,13 @@ def admin():
 		flash("Please login first!", "error")
 		return redirect(url_for("home", logged_in=loggedIn))
 
+@app.route("/next", methods=["GET"])
+def next():
+	if "user" in session:
+		loggedIn = [session["username"], session["account_type"], session["user"]]
+	else:
+		loggedIn = None
+	return render_template("next.html", logged_in=loggedIn)
+
 if __name__ == "__main__":
 	app.run(debug=True)
