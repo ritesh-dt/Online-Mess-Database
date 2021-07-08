@@ -4,22 +4,28 @@
 	<link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='style/restaurant.css') }}">
 {% endblock %}
 {% block content %}
-	<form method="get">
-		<div class="w3-container w3-margin-top w3-padding">
-			<input id="search" type="text" class="w3-input w3-third w3-border" name="text_query_name"placeholder="Search by name, dish or place" value="{{text_query}}" />
-		
-		
-			<button type="submit" class="w3-button w3-border w3-acp-mid-green w3-hover-acp-dark-green w3-mobile" name="button_submit">Search</button>
-		</div>
-	</form>
+
+
+	<div class="w3-container w3-margin-top w3-margin-left-16">
+		<form method="get">
+			<p class="">
+				<input id="searchBar" type="text" class="w3-input w3-border" name="text_query_name" placeholder="Search by name, dish or place" value="{{text_query}}" />
+			</p>
+			<p class="">
+				<button type="submit" class="w3-button w3-border w3-acp-mid-green w3-hover-acp-dark-green w3-mobile" name="button_submit">Search</button>
+			</p>
+
+		</form>
+	</div>
+
 	<div class="w3-container w3-padding-small">
-	{% for restaurant in query_result %}
+		{% for restaurant in query_result %}
 	<div class="{% if restaurant.images %}
-					w3-half
+					w3-third
 				{% else %}
-					w3-half
+					w3-third
 				{% endif %}">
-		<div class="w3-card w3-margin w3-round-large w3-hover-shadow w3-sand w3-hide-large">
+		<div class="w3-card w3-margin w3-round-large w3-hover-shadow w3-sand w3-margin-32">
 			{% if restaurant.images %}
 				<div class="w3-center w3-dark-blue">
 					<div id="search_carousel" class="w3-center">
@@ -38,7 +44,7 @@
 						<span class="vegetarianicon w3-right">⊡</span>
 					{% endif %}
 				</div>
-				<div class=" w3-large w3-right w3-round w3-padding  w3-blue  w3-margin-right w3-margin-top w3-hide-small">
+				<div class=" w3-large w3-right w3-round w3-padding w3-red w3-margin-right w3-margin-top w3-hide-small">
 					<div class="w3-container w3-padding-small">
 						<span class="w3-left-align w3-small">Per Thali
 						</span>
@@ -48,102 +54,50 @@
 
 						<span style="text-decoration: line-through;" class="w3-small w3-center">
 							Rs. {{ restaurant.main_menu_price }}</span>
-						
+
 					</div>
 				</div>
 				<div class="w3-padding w3-text-black">
 					{{restaurant.address}}<br/>
 					Hygiene Rating:<br/>
 					{% for star in range(restaurant.rating|int) %}
-						<i class="fa fa-star w3-text-green"></i>
+						<i class="fa fa-star w3-text-acp-mid-green"></i>
 					{% endfor %}
 					{% for star in range(5-restaurant.rating|int) %}
-						<i class="fa fa-star-o w3-text-green"></i>
+						<i class="fa fa-star-o w3-text-acp-mid-green"></i>
 					{% endfor %}
 					<br/>
-					<div class=" w3-large w3-round w3-padding w3-blue w3-margin-right w3-margin-top w3-margin-bottom w3-hide-large w3-hide-medium w3-mobile">
+					<div class=" w3-large w3-round w3-padding w3-dark-blue w3-margin-right w3-margin-top w3-margin-bottom w3-hide-large w3-hide-medium w3-mobile">
 						<div class="w3-container w3-padding-small">
 							Per Thali
 							Rs. {{ restaurant.main_menu_price * 0.7}}
 							<span style="text-decoration: line-through;" class="w3-small w3-center">
 								Rs. {{ restaurant.main_menu_price }}</span>
-							
+
 						</div>
 					</div>
 					<div class="w3-left-align">
 						<span class="w3-hide-small"><br/><br/><br/></span>
 						<span class="w3-hide-small">
 							{% for tag in restaurant.tags.split(", ")[:3] %}
-								<a href="/search?text_query_name={{tag}}" class=" w3-red w3-round-large w3-padding-small w3-button">{{tag}}</a>
+								<a href="/search?text_query_name={{tag}}" class=" w3-sienna w3-round-large w3-padding-small w3-button">{{tag}}</a>
 							{% endfor %}
 						</span>
 						<span class="w3-hide-medium w3-hide-large">
 							{% for tag in restaurant.tags.split(", ")[:1] %}
-								<a href="/search?text_query_name={{tag}}" class=" w3-red w3-round-large w3-padding-small w3-button">{{tag}}</a>
+								<a href="/search?text_query_name={{tag}}" class=" w3-sienna w3-round-large w3-padding-small w3-button">{{tag}}</a>
 							{% endfor %}
 						</span>
-						<a href="/restaurant/{{restaurant.id}}" class="w3-button w3-right w3-green w3-round w3-padding w3-margin-bottom">View Menu</a>
+						<a href="/restaurant/{{restaurant.id}}" class="w3-button w3-right w3-acp-mid-green w3-round w3-padding w3-margin-bottom">View Menu</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	</div>
-	
-
-	<div class="w3-card w3-margin w3-round-large w3-hover-shadow w3-sand w3-hide-small w3-hide-medium" style="width: 800px">
-			{% if restaurant.images %}
-				<div class="w3-left w3-hide-small w3-hide-medium">
-					<img src="{{url_for('send_image', filename=restaurant.images[0].image_name)}}" height="232px" class="w3-round-large" />
-				</div>
-			{% endif %}
-			<div class="w3-container w3-rest">
-				<div class="w3-margin-top w3-xlarge w3-padding-small">
-					{{restaurant.name}}
-					{% if restaurant.vegetarian == 1 %}
-						<span class="vegetarianicon w3-right">⊡</span>
-					{% endif %}
-				</div>
-				<div class=" w3-large w3-right w3-round w3-padding w3-blue w3-margin-right w3-margin-top">
-							<div class="w3-container w3-padding-small">
-								<span class="w3-left-align w3-small">Per thali
-								</span>
-								<br>
-								{{ restaurant.main_menu_price * 0.7}} Rs.
-								<br>
-
-								<span style="text-decoration: line-through;" class="w3-small w3-center">
-									{{ restaurant.main_menu_price }} Rs.</span>
-								
-							</div>
-						</div>
-				<div class="w3-padding w3-text-black">
-					{{restaurant.address}}<br/>
-					Hygiene Rating:
-					{% for star in range(restaurant.rating|int) %}
-						<i class="fa fa-star w3-text-green"></i>
-					{% endfor %}
-					{% for star in range(5-restaurant.rating|int) %}
-						<i class="fa fa-star-o w3-text-green"></i>
-					{% endfor %}
-					<br/>
-					<div class="w3-left-align">
-						
-						<br/><br/><br/>
-						{% for tag in restaurant.tags.split(", ")[:3] %}
-							<a href="/search?text_query_name={{tag}}" class=" w3-red w3-round-large w3-padding-small w3-button">{{tag}}</a>
-						{% endfor %}
-						<a href="/restaurant/{{restaurant.id}}" class="w3-button w3-right w3-green w3-round w3-padding w3-margin-bottom">View Menu</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 	{% endfor %}
 	</div>
-	<div class="w3-container w3-center w3-large w3-margin-top-32">
+	<div class="w3-container w3-center w3-large w3-margin-top-32 w3-margin-bottom">
 		Look's like you've reached the end for this search
+		<hr />
 	</div>
 {% endblock %}
