@@ -20,7 +20,9 @@ SERVER_URL = "http://127.0.0.1:5000/"
 ADMIN_EMAIL = "admin@onlinemess.com"
 
 # Database Section
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.sqlite3"
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(basedir, "users.sqlite3")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["UPLOAD_FOLDER"] = "res/images"
 app.permanent_session_lifetime = timedelta(minutes=5)
