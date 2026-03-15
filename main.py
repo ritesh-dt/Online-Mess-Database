@@ -20,7 +20,8 @@ SERVER_URL = "http://127.0.0.1:5000/"
 ADMIN_EMAIL = "admin@onlinemess.com"
 
 # Database Section
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.sqlite3"
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(basedir, "users.sqlite3")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["UPLOAD_FOLDER"] = "res/images"
 app.permanent_session_lifetime = timedelta(minutes=5)
@@ -28,6 +29,7 @@ db = SQLAlchemy(app)
 
 
 class UsersDB(db.Model):
+	__tablename__ = "usersDB"
 	id = db.Column(db.Integer, primary_key=True)
 	first_name = db.Column(db.String(20), nullable=False)
 	last_name = db.Column(db.String(20), nullable=False)
@@ -39,6 +41,7 @@ class UsersDB(db.Model):
 	subscriptions = db.Column(db.String(300))
 
 class RestaurantsDB(db.Model):
+	__tablename__ = "restaurantsDB"
 	id = db.Column(db.Integer, primary_key=True, unique=True)
 	name = db.Column(db.String(80))
 	menu = db.Column(db.String(80))
@@ -58,11 +61,13 @@ class RestaurantsDB(db.Model):
 	main_menu_price = db.Column(db.Float)
 
 class ImagesDB(db.Model):
+	__tablename__ = "imagesDB"
 	id = db.Column(db.Integer, primary_key=True, unique=True)
 	image_name = db.Column(db.String(40))
 	parent_id = db.Column(db.Integer, db.ForeignKey("restaurantsDB.id"))
 
 class OrdersDB(db.Model):
+	__tablename__ = "ordersDB"
 	id = db.Column(db.Integer, primary_key=True, unique=True)
 	bill_id = db.Column(db.Integer, nullable=False)
 	item = db.Column(db.String, nullable=False)
@@ -70,6 +75,7 @@ class OrdersDB(db.Model):
 	price = db.Column(db.Float, nullable=False)
 
 class BillsDB(db.Model):
+	__tablename__ = "billsDB"
 	id = db.Column(db.Integer, primary_key=True, unique=True)
 	creator = db.Column(db.Integer, nullable=False)
 	subscriber = db.Column(db.Integer, nullable=False)
@@ -77,8 +83,10 @@ class BillsDB(db.Model):
 	timestamp = db.Column(db.String, nullable=False)
 	active = db.Column(db.Boolean, nullable=False)
 	coupon = db.Column(db.String, nullable=False)
+	
+with app.app_context():
+	db.create_all()
 
-db.create_all()
 # Database End
 
 # Email sending
