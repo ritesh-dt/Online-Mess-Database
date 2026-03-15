@@ -21,7 +21,6 @@ ADMIN_EMAIL = "admin@onlinemess.com"
 
 # Database Section
 basedir = os.path.abspath(os.path.dirname(__file__))
-
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(basedir, "users.sqlite3")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["UPLOAD_FOLDER"] = "res/images"
